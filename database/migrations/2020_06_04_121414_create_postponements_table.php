@@ -16,7 +16,7 @@ class CreatePostponementsTable extends Migration
         Schema::create('postponements', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('attachement');
-            $table->bigIncrements('user_id');
+            $table->bigInteger('user_id');
             $table->string('postponable_type');
             $table->integer('postponable_id');
             $table->softDeletes();

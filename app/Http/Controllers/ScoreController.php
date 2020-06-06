@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Score;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,6 +12,7 @@ class ScoreController extends Controller
     public function getAllScores()
     {
         $scores = Score::all();
+
         return response()->json([
             'scores' => $scores
         ], 200);
@@ -32,12 +34,9 @@ class ScoreController extends Controller
     public function postScore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'course_id'=>'required',
             'marks' => 'required',
             'scorable_type' => 'required',
             'scorable_id' => 'required',
-
 
         ]);
 
@@ -49,13 +48,11 @@ class ScoreController extends Controller
         }
 
         $score = new Score();
-        $score->user_id = $request->input('user_id');
-        $score->course_id = $request->input('course_id');
         $score->marks = $request->input('marks');
         $score->scorable_type = $request->input('scorable_type');
         $score->scorable_id = $request->input('scorable_id');
 
-        $score->save();
+        $score()->save();
         return response()->json([
             'score' => $score
         ], 200);
@@ -71,8 +68,6 @@ class ScoreController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'course_id'=>'required',
             'marks' => 'required',
             'scorable_type' => 'required',
             'scorable_id' => 'required',
@@ -86,8 +81,6 @@ class ScoreController extends Controller
         }
 
         $score->update([
-            'user_id' => $request->input('user_id'),
-            'course_id' => $request->input('course_id'),
             'marks' => $request->input('marks'),
             'scorable_type' => $request->input('scorable_type'),
             'scorable_id' => $request->input('scorable_id'),

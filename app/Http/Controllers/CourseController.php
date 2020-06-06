@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,6 +12,7 @@ class CourseController extends Controller
     public function getAllCourses()
     {
         $courses = Course::all();
+
         return response()->json([
             'courses' => $courses
         ], 200);
@@ -29,11 +31,17 @@ class CourseController extends Controller
         ], 200);
     }
 
-    public function postCourse(Request $request)
+    public function postCourse(Request $request, $userId)
     {
+        $user = User::find($userId);
+        if (!$user) {
+            return response()->json([
+                'error' => "User not found"
+            ], 404);
+        }
         $validator = Validator::make($request->all(), [
-            'code' => 'code',
-            'title' => 'title',
+            'code' => 'required',
+            'title' => 'required',
 
         ]);
 
@@ -48,7 +56,8 @@ class CourseController extends Controller
         $course->code = $request->input('code');
         $course->title = $request->input('title');
 
-        $course->save();
+        // Save course
+        $user->courses()->save($course);
         return response()->json([
             'course' => $course
         ], 200);
@@ -81,7 +90,7 @@ class CourseController extends Controller
         ]);
         $course->save();
         return response()->json([
-            'course' => $course
+            'Edited course' => $course
         ], 200);
     }
 

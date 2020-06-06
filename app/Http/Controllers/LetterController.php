@@ -12,7 +12,7 @@ class LetterController extends Controller
     {
         $letters = Letter::all();
         return response()->json([
-            'letters' => $letters
+            'All letters' => $letters
         ], 200);
     }
     public function getSingleLetter($letterId)
@@ -24,7 +24,7 @@ class LetterController extends Controller
             ], 404);
         }
         return response()->json([
-            'letter' => $letter
+            'Letter' => $letter
         ], 200);
     }
 
@@ -58,7 +58,7 @@ class LetterController extends Controller
 
         $letter->save();
         return response()->json([
-            'letter' => $letter
+            'Posted letter' => $letter
         ], 200);
     }
 
@@ -87,7 +87,7 @@ class LetterController extends Controller
         ]);
         $letter->save();
         return response()->json([
-            'letter' => $letter
+            'Edited letter' => $letter
         ], 200);
     }
 

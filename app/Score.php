@@ -9,7 +9,6 @@ class Score extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'user_id',
         'course_id',
         'marks',
         'scorable_type',
@@ -18,4 +17,9 @@ class Score extends Model
     protected $dates = [
         'deleted_at'
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

@@ -15,16 +15,15 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigIncrements('user_id');
             $table->integer('marks');
-            $table->integer('course_id');
+            $table->bigInteger('course_id');
             $table->string('scorable_type');
             $table->integer('scorable_id');
             $table->timestamps();
         });
     }
 
-    
+
     /**
      * Reverse the migrations.
      *
