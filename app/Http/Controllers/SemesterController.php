@@ -12,7 +12,7 @@ class SemesterController extends Controller
     {
         $semesters = Semester::all();
         return response()->json([
-            'semesters' => $semesters
+            'All semesters' => $semesters
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class SemesterController extends Controller
             ], 404);
         }
         return response()->json([
-            'semester' => $semester
+            'Semester' => $semester
         ], 200);
     }
 
@@ -48,7 +48,7 @@ class SemesterController extends Controller
 
         $semester->save();
         return response()->json([
-            'semester' => $semester
+            'Posted semester' => $semester
         ], 200);
     }
 
@@ -77,7 +77,7 @@ class SemesterController extends Controller
         ]);
         $semester->save();
         return response()->json([
-            'semester' => $semester
+            'Edited semester' => $semester
         ], 200);
     }
 

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Quize;
+use App\Quiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
-   public function getAllQuizes()
+   public function getAllQuizzes()
     {
-        $quizes = Quiz::all();
+        $quizzes = Quiz::all();
         return response()->json([
-            'quizes' => $quizes
+            'All quizzes' => $quizzes
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class QuizController extends Controller
             ], 404);
         }
         return response()->json([
-            'quiz' => $quiz
+            'Quiz' => $quiz
         ], 200);
     }
 
@@ -48,7 +48,7 @@ class QuizController extends Controller
 
         $quiz->save();
         return response()->json([
-            'quiz' => $quiz
+            'Posted quiz' => $quiz
         ], 200);
     }
 
@@ -77,7 +77,7 @@ class QuizController extends Controller
         ]);
         $quiz->save();
         return response()->json([
-            'quiz' => $quiz
+            'Edited quiz' => $quiz
         ], 200);
     }
 

@@ -39,7 +39,7 @@ class User extends Authenticatable
     // Relations
     public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(Course::class);
     }
 
     public function role()

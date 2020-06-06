@@ -12,7 +12,7 @@ class PracticalController extends Controller
     {
         $practicals = Practical::all();
         return response()->json([
-            'practicals' => $practicals
+            'All practicals' => $practicals
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class PracticalController extends Controller
             ], 404);
         }
         return response()->json([
-            'practical' => $practical
+            'Practical' => $practical
         ], 200);
     }
 
@@ -48,7 +48,7 @@ class PracticalController extends Controller
 
         $practical->save();
         return response()->json([
-            'practical' => $practical
+            'Posted practical' => $practical
         ], 200);
     }
 
@@ -77,7 +77,7 @@ class PracticalController extends Controller
         ]);
         $practical->save();
         return response()->json([
-            'practical' => $practical
+            'Edited practical' => $practical
         ], 200);
     }
 

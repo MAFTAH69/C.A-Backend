@@ -12,7 +12,9 @@ class CourseController extends Controller
     public function getAllCourses()
     {
         $courses = Course::all();
-
+        foreach($courses as $course){
+            $course->tests;
+        }
         return response()->json([
             'courses' => $courses
         ], 200);
@@ -31,14 +33,9 @@ class CourseController extends Controller
         ], 200);
     }
 
-    public function postCourse(Request $request, $userId)
+    public function postCourse(Request $request)
     {
-        $user = User::find($userId);
-        if (!$user) {
-            return response()->json([
-                'error' => "User not found"
-            ], 404);
-        }
+
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'title' => 'required',
@@ -48,7 +45,6 @@ class CourseController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors(),
-                'status' => false
             ], 404);
         }
 
@@ -57,10 +53,38 @@ class CourseController extends Controller
         $course->title = $request->input('title');
 
         // Save course
-        $user->courses()->save($course);
+        $course->save();
         return response()->json([
             'course' => $course
         ], 200);
+    }
+
+    public function attachCourse(Request $request, $status)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'course_id' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 404);
+        }
+
+        $course = Course::find($request->course_id);
+        if (!$course) return response()->json(['error' => 'Course not found'], 404);
+
+        $user = User::find($request->user_id);
+        if (!$user) return response()->json(['error' => 'User not found'], 404);
+
+        if ($status == 'attach') $user->courses()->attach($course);
+
+        if ($status == 'detach') $user->courses()->detach($course);
+
+        $user->courses;
+        return response()->json(['attachement' => $user]);
     }
 
     public function putCourse(Request $request, $courseId)

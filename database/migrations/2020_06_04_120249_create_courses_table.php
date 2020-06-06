@@ -15,7 +15,6 @@ class CreateCoursesTable extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
             $table->string('code');
             $table->string('title');
             $table->softDeletes();

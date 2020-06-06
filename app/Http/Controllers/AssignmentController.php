@@ -12,7 +12,7 @@ class AssignmentController extends Controller
     {
         $assignments = Assignment::all();
         return response()->json([
-            'assignments' => $assignments
+            'All assignments' => $assignments
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class AssignmentController extends Controller
             ], 404);
         }
         return response()->json([
-            'assignment' => $assignment
+            'Assignment' => $assignment
         ], 200);
     }
 
@@ -47,7 +47,7 @@ class AssignmentController extends Controller
 
         $assignment->save();
         return response()->json([
-            'assignment' => $assignment
+            'Posted assignment' => $assignment
         ], 200);
     }
 
@@ -76,7 +76,7 @@ class AssignmentController extends Controller
         ]);
         $assignment->save();
         return response()->json([
-            'assignment' => $assignment
+            'Edited assignment' => $assignment
         ], 200);
     }
 

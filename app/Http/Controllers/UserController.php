@@ -66,8 +66,8 @@ class UserController extends Controller
             ]
         );
         $user->save();
-        $user->role;
-        $user->courses;
+        // $user->role;
+        // $user->courses;
 
         return response()->json([
             'Registered user' => $user

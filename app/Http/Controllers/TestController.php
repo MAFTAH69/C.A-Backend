@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +13,7 @@ class TestController extends Controller
     {
         $tests = Test::all();
         return response()->json([
-            'tests' => $tests
+            'All tests' => $tests
         ], 200);
     }
 
@@ -25,12 +26,15 @@ class TestController extends Controller
             ], 404);
         }
         return response()->json([
-            'test' => $test
+            'Test' => $test
         ], 200);
     }
 
-    public function postTest(Request $request)
+    public function postTest(Request $request, $courseId)
     {
+        $course = Course::find($courseId);
+        if (!$course) return response()->json(['error' => 'Course not found']);
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
 
@@ -46,7 +50,7 @@ class TestController extends Controller
         $test = new Test();
         $test->title = $request->input('title');
 
-        $test->save();
+        $course->tests()->save($test);
         return response()->json([
             'test' => $test
         ], 200);
@@ -77,7 +81,7 @@ class TestController extends Controller
         ]);
         $test->save();
         return response()->json([
-            'test' => $test
+            'Edited test' => $test
         ], 200);
     }
 

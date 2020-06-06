@@ -5,12 +5,13 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Quize extends Model
+class Quiz extends Model
 {
     use SoftDeletes;
     protected $fillable = [
         'title'
     ];
+
     protected $dates = [
         'deleted_at'
     ];
