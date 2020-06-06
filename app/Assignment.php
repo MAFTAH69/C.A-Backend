@@ -14,4 +14,14 @@ class Assignment extends Model
     protected $dates = [
         'deleted_at'
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function scores()
+    {
+        return $this->morphToMany(Score::class, 'scorable');
+    }
 }

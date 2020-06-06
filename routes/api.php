@@ -38,6 +38,7 @@ Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
 //  Routes for Test
 Route::get('tests', ['uses' => 'TestController@getAllTests']);
 Route::post('test/{courseId}', ['uses' => 'TestController@postTest']);
+Route::post('testScore/{testId}', ['uses' => 'TestController@postScoreForATest']);
 Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
 Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
 Route::delete('test/{testId}', ['uses' => 'TestController@deleteTest']);

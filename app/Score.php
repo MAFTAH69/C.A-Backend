@@ -11,8 +11,8 @@ class Score extends Model
     protected $fillable = [
         'course_id',
         'marks',
-        'scorable_type',
-        'scorable_id'
+        'scoreable_type',
+        'scoreable_id'
     ];
     protected $dates = [
         'deleted_at'
@@ -21,5 +21,10 @@ class Score extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    public function scorable()
+    {
+        return $this->morphTo();
     }
 }

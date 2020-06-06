@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Events\CreateScoreEvent;
 use App\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,7 @@ class TestController extends Controller
     {
         $tests = Test::all();
         return response()->json([
-            'All tests' => $tests
+            'tests' => $tests
         ], 200);
     }
 
@@ -55,6 +56,8 @@ class TestController extends Controller
             'test' => $test
         ], 200);
     }
+
+
 
     public function putTest(Request $request, $testId)
     {
@@ -98,5 +101,24 @@ class TestController extends Controller
         return response()->json([
             'message' => 'Test deleted successfully'
         ], 200);
+    }
+
+    public function postScoreForATest(Request $request, $testId)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'marks' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 404);
+        }
+        $test = Test::find($testId);
+        if (!$test) return response()->json(['error' => 'Test not found'], 404);
+
+        $score = event(new CreateScoreEvent($test, $request));
+        return response()->json(['score' => $score]);
     }
 }

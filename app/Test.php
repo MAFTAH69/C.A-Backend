@@ -19,4 +19,8 @@ class Test extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
+
+    public function scores(){
+        return $this->morphMany(Score::class, 'scorable');
+    }
 }

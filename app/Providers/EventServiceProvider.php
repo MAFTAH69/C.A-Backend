@@ -18,7 +18,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        'App\Events\CreateScoreEvent'=>[
+            'App\Listeners\CreateScoreEventListener'
+        ]
     ];
+
+
 
     /**
      * Register any events for your application.
