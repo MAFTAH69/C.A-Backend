@@ -11,8 +11,8 @@ class Score extends Model
     protected $fillable = [
         'course_id',
         'marks',
-        'scoreable_type',
-        'scoreable_id'
+        'scorable_type',
+        'scorable_id'
     ];
     protected $dates = [
         'deleted_at'

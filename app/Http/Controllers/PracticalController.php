@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Practical;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,8 +30,10 @@ class PracticalController extends Controller
         ], 200);
     }
 
-    public function postPractical(Request $request)
+    public function postPractical(Request $request, $courseId)
     {
+        $course=Course::find($courseId);
+        if(!$course) return response()->json(['error'=>'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
 
@@ -46,9 +49,9 @@ class PracticalController extends Controller
         $practical = new Practical();
         $practical->title = $request->input('title');
 
-        $practical->save();
+        $course->practicals()->save($practical);
         return response()->json([
-            'Posted practical' => $practical
+            'practical' => $practical
         ], 200);
     }
 
@@ -94,5 +97,24 @@ class PracticalController extends Controller
         return response()->json([
             'message' => 'Practical deleted successfully'
         ], 200);
+    }
+
+    public function postScoreForAPractical(Request $request, $practicalId)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'marks' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 404);
+        }
+        $practical = Practical::find($practicalId);
+        if (!$practical) return response()->json(['error' => 'Practical not found'], 404);
+
+        $score = event(new CreateScoreEvent($practical, $request));
+        return response()->json(['score' => $score]);
     }
 }

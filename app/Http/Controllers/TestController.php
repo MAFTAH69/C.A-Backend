@@ -13,6 +13,7 @@ class TestController extends Controller
     public function getAllTests()
     {
         $tests = Test::all();
+
         return response()->json([
             'tests' => $tests
         ], 200);
@@ -44,7 +45,6 @@ class TestController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 'error' => $validator->errors(),
-                'status' => false
             ], 404);
         }
 
@@ -56,8 +56,6 @@ class TestController extends Controller
             'test' => $test
         ], 200);
     }
-
-
 
     public function putTest(Request $request, $testId)
     {

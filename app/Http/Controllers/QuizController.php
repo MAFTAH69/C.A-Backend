@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Quiz;
+use App\Events\CreateScoreEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
-   public function getAllQuizzes()
+    public function getAllQuizzes()
     {
         $quizzes = Quiz::all();
+        foreach($quizzes as $quiz){
+            // $quiz->scores;
+        }
         return response()->json([
-            'All quizzes' => $quizzes
+            'quizzes' => $quizzes
         ], 200);
     }
 
@@ -29,26 +34,26 @@ class QuizController extends Controller
         ], 200);
     }
 
-    public function postQuiz(Request $request)
+    public function postQuiz(Request $request, $courseId)
     {
+        $course = Course::find($courseId);
+        if (!$course) return response()->json(['error' => 'Course not found']);
+
         $validator = Validator::make($request->all(), [
             'title' => 'required',
 
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'status' => false
-            ], 404);
+            return response()->json(['error' => $validator->errors()], 404);
         }
 
         $quiz = new Quiz();
         $quiz->title = $request->input('title');
 
-        $quiz->save();
+        $course->quizzes()->save($quiz);
         return response()->json([
-            'Posted quiz' => $quiz
+            'quiz' => $quiz
         ], 200);
     }
 
@@ -94,5 +99,24 @@ class QuizController extends Controller
         return response()->json([
             'message' => 'Quiz deleted successfully'
         ], 200);
+    }
+
+    public function postScoreForAQuiz(Request $request, $quizId)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'marks' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 404);
+        }
+        $quiz = Quiz::find($quizId);
+        if (!$quiz) return response()->json(['error' => 'Quiz not found'], 404);
+
+        $score = event(new CreateScoreEvent($quiz, $request));
+        return response()->json(['score' => $score]);
     }
 }

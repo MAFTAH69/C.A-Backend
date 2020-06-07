@@ -14,6 +14,9 @@ class CourseController extends Controller
         $courses = Course::all();
         foreach($courses as $course){
             $course->tests;
+            $course->quizzes;
+            $course->practicals;
+            $course->assignments;
         }
         return response()->json([
             'courses' => $courses

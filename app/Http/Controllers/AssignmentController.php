@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Course;
 
 use App\Assignment;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class AssignmentController extends Controller
     {
         $assignments = Assignment::all();
         return response()->json([
-            'All assignments' => $assignments
+            'assignments' => $assignments
         ], 200);
     }
 
@@ -29,8 +30,10 @@ class AssignmentController extends Controller
         ], 200);
     }
 
-    public function postAssignment(Request $request)
+    public function postAssignment(Request $request, $courseId)
     {
+        $course=Course::find($courseId);
+        if(!$course) return response()->json(['error'=>'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
         ]);
@@ -45,9 +48,9 @@ class AssignmentController extends Controller
         $assignment = new Assignment();
         $assignment->title = $request->input('title');
 
-        $assignment->save();
+        $course->assignments()->save($assignment);
         return response()->json([
-            'Posted assignment' => $assignment
+            'assignment' => $assignment
         ], 200);
     }
 
@@ -76,7 +79,7 @@ class AssignmentController extends Controller
         ]);
         $assignment->save();
         return response()->json([
-            'Edited assignment' => $assignment
+            'assignment' => $assignment
         ], 200);
     }
 
@@ -93,5 +96,23 @@ class AssignmentController extends Controller
         return response()->json([
             'message' => 'Assignment deleted successfully'
         ], 200);
+    }
+    public function postScoreForAnAssignment(Request $request, $assignmentId)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'marks' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 404);
+        }
+        $assignment = Assignment::find($assignmentId);
+        if (!$assignment) return response()->json(['error' => 'Assignment not found'], 404);
+
+        $score = event(new CreateScoreEvent($assignment, $request));
+        return response()->json(['score' => $score]);
     }
 }

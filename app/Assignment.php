@@ -20,8 +20,7 @@ class Assignment extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
-    public function scores()
-    {
-        return $this->morphToMany(Score::class, 'scorable');
+    public function scores(){
+        return $this->morphMany(Score::class, 'scorable');
     }
 }

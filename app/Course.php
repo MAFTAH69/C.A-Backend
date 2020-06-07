@@ -25,4 +25,16 @@ class Course extends Model
     {
         return $this->hasMany(Test::class);
     }
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
+    public function practicals()
+    {
+        return $this->hasMany(Practical::class);
+    }
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }

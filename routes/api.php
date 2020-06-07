@@ -35,6 +35,38 @@ Route::put('course/{courseId}', ['uses' => 'CourseController@putCourse']);
 Route::post('attachCourse/{status}', ['uses' => 'CourseController@attachCourse']);
 Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
 
+
+//  Routes for Scores
+// Route::get('scores/{courseId}', ['uses' => 'ScoreController@getAllScores']);
+// Route::post('test', ['uses' => 'TestController@postTest']);
+// Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
+// Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
+// Route::delete('test/{testId}', ['uses' => 'TestController@deleteTest']);
+
+//  Routes for Assigments
+Route::get('assignments', ['uses' => 'AssignmentController@getAllAssignments']);
+Route::post('assignment/{courseId}', ['uses' => 'AssignmentController@postAssignment']);
+Route::post('assignmentScore/{assignmentId}', ['uses' => 'AssignmentController@postScoreForAnAssignment']);
+Route::get('assignment/{assignmentId}', ['uses' => 'AssignmentController@getSingleAssignment']);
+Route::put('assignment/{assignmentId}', ['uses' => 'AssignmentController@putAssignment']);
+Route::delete('assignment/{assignmentId}', ['uses' => 'AssignmentController@deleteAssignment']);
+
+//  Routes for Practicals
+Route::get('practicals', ['uses' => 'PracticalController@getAllPracticals']);
+Route::post('practical/{courseId}', ['uses' => 'PracticalController@postPractical']);
+Route::post('practicalScore/{practicalId}', ['uses' => 'PracticalController@postScoreForAPractical']);
+Route::get('practical/{practicalId}', ['uses' => 'PracticalController@getSinglePractical']);
+Route::put('practical/{practicalId}', ['uses' => 'PracticalController@putPractical']);
+Route::delete('practical/{practicalId}', ['uses' => 'PracticalController@deletePractical']);
+
+//  Routes for Quizes
+Route::get('quizzes', ['uses' => 'QuizController@getAllQuizzes']);
+Route::post('quiz/{courseId}', ['uses' => 'QuizController@postQuiz']);
+Route::post('quizScore/{quizId}', ['uses' => 'QuizController@postScoreForAQuiz']);
+Route::get('quiz/{quizId}', ['uses' => 'QuizController@getSingleQuiz']);
+Route::put('quiz/{quizId}', ['uses' => 'QuizController@putQuiz']);
+Route::delete('quiz/{quizId}', ['uses' => 'QuizController@deleteQuiz']);
+
 //  Routes for Test
 Route::get('tests', ['uses' => 'TestController@getAllTests']);
 Route::post('test/{courseId}', ['uses' => 'TestController@postTest']);
@@ -44,14 +76,7 @@ Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
 Route::delete('test/{testId}', ['uses' => 'TestController@deleteTest']);
 
 
-//  Routes for Letters
-Route::get('letters', ['uses' => 'LetterController@getAllLetters']);
-Route::post('letter', ['uses' => 'LetterController@postLetter']);
-Route::get('letter/{letterId}', ['uses' => 'LetterController@getSingleLetter']);
-Route::put('letter/{letterId}', ['uses' => 'LetterController@putLetter']);
-Route::delete('letter/{letterId}', ['uses' => 'LetterController@deleteLetter']);
-Route::get('letter/sample/{letterId}', ['uses' => 'LetterController@viewSampleFile']);
-
+// *****************************
 
 //  Routes for Year
 Route::get('years', ['uses' => 'YearController@getAllYears']);
@@ -68,32 +93,18 @@ Route::get('semester/{semesterId}', ['uses' => 'SemesterController@getSingleSeme
 Route::put('semester/{semesterId}', ['uses' => 'SemesterController@putSemester']);
 Route::delete('semester/{semesterId}', ['uses' => 'SemesterController@deleteSemester']);
 
-//  Routes for Tests
-Route::get('tests', ['uses' => 'TestController@getAllTests']);
-Route::post('test', ['uses' => 'TestController@postTest']);
-Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
-Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
-Route::delete('test/{testId}', ['uses' => 'TestController@deleteTest']);
+//  Routes for Letters
+Route::get('letters', ['uses' => 'LetterController@getAllLetters']);
+Route::post('letter', ['uses' => 'LetterController@postLetter']);
+Route::get('letter/{letterId}', ['uses' => 'LetterController@getSingleLetter']);
+Route::put('letter/{letterId}', ['uses' => 'LetterController@putLetter']);
+Route::delete('letter/{letterId}', ['uses' => 'LetterController@deleteLetter']);
+Route::get('letter/sample/{letterId}', ['uses' => 'LetterController@viewSampleFile']);
 
-//  Routes for Assigments
-Route::get('assignments', ['uses' => 'AssignmentController@getAllAssignments']);
-Route::post('assignment', ['uses' => 'AssignmentController@postAssignment']);
-Route::get('assignment/{assignmentId}', ['uses' => 'AssignmentController@getSingleAssignment']);
-Route::put('assignment/{assignmentId}', ['uses' => 'AssignmentController@putAssignment']);
-Route::delete('assignment/{assignmentId}', ['uses' => 'AssignmentController@deleteAssignment']);
-
-//  Routes for Practicals
-Route::get('practicals', ['uses' => 'PracticalController@getAllPracticals']);
-Route::post('practical', ['uses' => 'PracticalController@postPractical']);
-Route::get('practical/{practicalId}', ['uses' => 'PracticalController@getSinglePractical']);
-Route::put('practical/{practicalId}', ['uses' => 'PracticalController@putPractical']);
-Route::delete('practical/{practicalId}', ['uses' => 'PracticalController@deletePractical']);
-
-//  Routes for Quizes
-Route::get('quizzes', ['uses' => 'QuizController@getAllQuizzes']);
-Route::post('quiz', ['uses' => 'QuizController@postQuiz']);
-Route::get('quiz/{quizId}', ['uses' => 'QuizController@getSingleQuiz']);
-Route::put('quiz/{quizId}', ['uses' => 'QuizController@putQuiz']);
-Route::delete('quiz/{quizId}', ['uses' => 'QuizController@deleteQuiz']);
-
-//
+//  Routes for Postponements
+Route::get('postponements', ['uses' => 'PostponementController@getAllPostponements']);
+Route::post('postponement', ['uses' => 'PostponementController@postPostponement']);
+Route::get('postponement/{postponementId}', ['uses' => 'PostponementController@getSinglePostponement']);
+Route::put('postponement/{postponementId}', ['uses' => 'PostponementController@putPostponement']);
+Route::delete('postponement/{postponementId}', ['uses' => 'PostponementController@deletePostponement']);
+Route::get('postponement/attachement/{postponementId}', ['uses' => 'PostponementController@viewAttachementFile']);
