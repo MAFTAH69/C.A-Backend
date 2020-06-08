@@ -31,5 +31,7 @@ class CreateScoreEventListener
         $score->marks=$event->request->marks;
         $score->user_id=$event->request->user_id;
         $event->scoreType->scores()->save($score);
+        return response()->json(['score' => $score]);
+
     }
 }

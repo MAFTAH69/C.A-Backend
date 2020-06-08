@@ -13,7 +13,9 @@ class TestController extends Controller
     public function getAllTests()
     {
         $tests = Test::all();
-
+        foreach($tests as $test){
+            $test->scores;
+        }
         return response()->json([
             'tests' => $tests
         ], 200);

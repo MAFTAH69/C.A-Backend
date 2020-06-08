@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Postponement;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,7 +19,7 @@ class PostponementController extends Controller
     public function getSinglePostponement($postponementId)
     {
         $postponement = Postponement::find($postponementId);
-        if (!$postponementId) {
+        if (!$postponement) {
             return response()->json([
                 'error' => 'Postponement not found'
             ], 404);
@@ -28,8 +29,11 @@ class PostponementController extends Controller
         ], 200);
     }
 
-    public function postPostponement(Request $request)
+    public function postPostponement(Request $request, $userId)
     {
+        $user = User::find($userId);
+        if(!$user)return response()->json(['error'=>'User not found']);
+
         $this->path = null;
 
         $validator = Validator::make($request->all(), [
@@ -58,7 +62,7 @@ class PostponementController extends Controller
         $postponement->attachement = $this->attachement_path;
 
 
-        $postponement->save();
+        $user->postponements()->save($postponement);
         return response()->json([
             'postponement' => $postponement
         ], 200);

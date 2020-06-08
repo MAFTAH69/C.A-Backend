@@ -37,7 +37,7 @@ Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
 
 
 //  Routes for Scores
-// Route::get('scores/{courseId}', ['uses' => 'ScoreController@getAllScores']);
+Route::get('scores/{courseId}', ['uses' => 'ScoreController@getAllScores']);
 // Route::post('test', ['uses' => 'TestController@postTest']);
 // Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
 // Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
@@ -103,7 +103,7 @@ Route::get('letter/sample/{letterId}', ['uses' => 'LetterController@viewSampleFi
 
 //  Routes for Postponements
 Route::get('postponements', ['uses' => 'PostponementController@getAllPostponements']);
-Route::post('postponement', ['uses' => 'PostponementController@postPostponement']);
+Route::post('postponement/{userId}', ['uses' => 'PostponementController@postPostponement']);
 Route::get('postponement/{postponementId}', ['uses' => 'PostponementController@getSinglePostponement']);
 Route::put('postponement/{postponementId}', ['uses' => 'PostponementController@putPostponement']);
 Route::delete('postponement/{postponementId}', ['uses' => 'PostponementController@deletePostponement']);
