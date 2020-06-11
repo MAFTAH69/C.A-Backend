@@ -26,7 +26,7 @@ class AssignmentController extends Controller
             ], 404);
         }
         return response()->json([
-            'Assignment' => $assignment
+            'assignment' => $assignment
         ], 200);
     }
 
