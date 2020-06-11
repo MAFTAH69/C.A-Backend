@@ -14,7 +14,7 @@ class TestController extends Controller
     {
         $tests = Test::all();
         foreach($tests as $test){
-            $test->scores;
+            // $test->scores;
         }
         return response()->json([
             'tests' => $tests
@@ -107,7 +107,7 @@ class TestController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
-            'marks' => 'required',
+            'scored_marks' => 'required',
         ]);
 
         if ($validator->fails()) {

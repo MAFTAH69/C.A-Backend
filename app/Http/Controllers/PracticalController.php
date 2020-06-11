@@ -13,7 +13,7 @@ class PracticalController extends Controller
     {
         $practicals = Practical::all();
         return response()->json([
-            'All practicals' => $practicals
+            'practicals' => $practicals
         ], 200);
     }
 
@@ -26,7 +26,7 @@ class PracticalController extends Controller
             ], 404);
         }
         return response()->json([
-            'Practical' => $practical
+            'practical' => $practical
         ], 200);
     }
 
@@ -80,7 +80,7 @@ class PracticalController extends Controller
         ]);
         $practical->save();
         return response()->json([
-            'Edited practical' => $practical
+            'practical' => $practical
         ], 200);
     }
 
@@ -103,7 +103,7 @@ class PracticalController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
-            'marks' => 'required',
+            'scored_marks' => 'required',
         ]);
 
         if ($validator->fails()) {

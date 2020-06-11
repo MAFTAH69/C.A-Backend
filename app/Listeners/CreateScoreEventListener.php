@@ -28,7 +28,7 @@ class CreateScoreEventListener
     public function handle(CreateScoreEvent $event)
     {
         $score =new Score();
-        $score->marks=$event->request->marks;
+        $score->scored_marks=$event->request->scored_marks;
         $score->user_id=$event->request->user_id;
         $event->scoreType->scores()->save($score);
         return response()->json(['score' => $score]);
