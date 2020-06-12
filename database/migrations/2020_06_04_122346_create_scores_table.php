@@ -19,6 +19,7 @@ class CreateScoresTable extends Migration
             $table->bigInteger('user_id');
             $table->string('scorable_type');
             $table->integer('scorable_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

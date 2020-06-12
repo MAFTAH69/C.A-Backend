@@ -31,7 +31,12 @@ class CourseController extends Controller
                 'error' => 'Course not found'
             ], 404);
         }
+        $course->tests;
+        $course->quizzes;
+        $course->practicals;
+        $course->assignments;
         return response()->json([
+
             'course' => $course
         ], 200);
     }

@@ -12,6 +12,9 @@ class AssignmentController extends Controller
     public function getAllAssignments()
     {
         $assignments = Assignment::all();
+        foreach($assignments as $assignment){
+            $assignment->scores;
+        }
         return response()->json([
             'assignments' => $assignments
         ], 200);
@@ -25,6 +28,8 @@ class AssignmentController extends Controller
                 'error' => 'Assignment not found'
             ], 404);
         }
+        $assignment->scores;
+
         return response()->json([
             'assignment' => $assignment
         ], 200);

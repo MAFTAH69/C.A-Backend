@@ -12,6 +12,9 @@ class PracticalController extends Controller
     public function getAllPracticals()
     {
         $practicals = Practical::all();
+        foreach($practicals as $practical){
+            $practical->scores;
+        }
         return response()->json([
             'practicals' => $practicals
         ], 200);
@@ -25,6 +28,8 @@ class PracticalController extends Controller
                 'error' => 'Practical not found'
             ], 404);
         }
+        $practical->scores;
+
         return response()->json([
             'practical' => $practical
         ], 200);

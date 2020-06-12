@@ -1,13 +1,13 @@
 <?php
 
 namespace App;
-use App\Test;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Score extends Model
 {
     use SoftDeletes;
+
     protected $fillable = [
         'course_id',
         'marks',

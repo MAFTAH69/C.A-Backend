@@ -14,7 +14,7 @@ class TestController extends Controller
     {
         $tests = Test::all();
         foreach($tests as $test){
-            // $test->scores;
+            $test->scores;
         }
         return response()->json([
             'tests' => $tests
@@ -29,6 +29,8 @@ class TestController extends Controller
                 'error' => 'Test not found'
             ], 404);
         }
+        $test->scores;
+
         return response()->json([
             'test' => $test
         ], 200);

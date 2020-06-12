@@ -14,7 +14,7 @@ class QuizController extends Controller
     {
         $quizzes = Quiz::all();
         foreach($quizzes as $quiz){
-            // $quiz->scores;
+            $quiz->scores;
         }
         return response()->json([
             'quizzes' => $quizzes
@@ -29,6 +29,8 @@ class QuizController extends Controller
                 'error' => 'Quiz not found'
             ], 404);
         }
+        $quiz->scores;
+
         return response()->json([
             'Quiz' => $quiz
         ], 200);

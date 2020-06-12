@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Score;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,6 +18,16 @@ class ScoreController extends Controller
             'scores' => $scores
         ], 200);
     }
+
+    public function calculateCourseWork($userId)
+    {
+        $user = User::find($userId);
+        if (!$user) return response()->json(['error' => 'User not found']);
+
+
+
+    }
+
 
     // public function getSingleScore($scoreId)
     // {

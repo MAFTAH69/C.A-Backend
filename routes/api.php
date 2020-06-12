@@ -37,7 +37,7 @@ Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
 
 
 //  Routes for Scores
-Route::get('scores/{courseId}', ['uses' => 'ScoreController@getAllScores']);
+Route::get('scores', ['uses' => 'ScoreController@getAllScores']);
 // Route::post('test', ['uses' => 'TestController@postTest']);
 // Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
 // Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
