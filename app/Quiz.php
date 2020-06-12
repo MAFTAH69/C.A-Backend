@@ -9,7 +9,9 @@ class Quiz extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'title'
+        'title',
+        'total_marks'
+
     ];
 
     protected $dates = [

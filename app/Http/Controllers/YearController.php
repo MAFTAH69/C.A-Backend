@@ -12,7 +12,7 @@ class YearController extends Controller
     {
         $years = Year::all();
         return response()->json([
-            'All years' => $years
+            'years' => $years
         ], 200);
     }
 

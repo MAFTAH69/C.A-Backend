@@ -36,6 +36,8 @@ class PracticalController extends Controller
         if(!$course) return response()->json(['error'=>'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total-marks'=>'required'
+
 
         ]);
 
@@ -48,6 +50,8 @@ class PracticalController extends Controller
 
         $practical = new Practical();
         $practical->title = $request->input('title');
+        $practical->total_marks = $request->input('total_marks');
+
 
         $course->practicals()->save($practical);
         return response()->json([
@@ -66,6 +70,7 @@ class PracticalController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total_marks'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -77,6 +82,7 @@ class PracticalController extends Controller
 
         $practical->update([
             'title' => $request->input('title'),
+            'total_marks'=>$request->input('total_marks')
         ]);
         $practical->save();
         return response()->json([

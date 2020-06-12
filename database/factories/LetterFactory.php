@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Letter::class, function (Faker $faker) {
     return [
-        'tittle' => $faker->text(10),
+        'title' => $faker->text(10),
         'sample'=>$faker->text(20),
           ];
 });

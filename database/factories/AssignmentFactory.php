@@ -9,7 +9,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Assignment::class, function (Faker $faker) {
     return [
-        'tittle' => $faker->text(10),
-        'scored_marks'=>$faker->randomNumber(2),
+        'title' => $faker->text(10),
+        'total_marks'=>$faker->randomNumber(2),
+        'course_id'=>$faker->randomNumber(4)
           ];
 });

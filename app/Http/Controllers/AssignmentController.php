@@ -36,6 +36,7 @@ class AssignmentController extends Controller
         if(!$course) return response()->json(['error'=>'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total-marks'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -65,6 +66,8 @@ class AssignmentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total-marks'=>'required'
+
         ]);
 
         if ($validator->fails()) {
@@ -76,6 +79,8 @@ class AssignmentController extends Controller
 
         $assignment->update([
             'title' => $request->input('title'),
+            'total-marks'=>$request->input('total_marks')
+
         ]);
         $assignment->save();
         return response()->json([

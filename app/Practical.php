@@ -9,7 +9,9 @@ class Practical extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'title'
+        'title',
+        'total_marks'
+
     ];
     protected $dates = [
         'deleted_at'

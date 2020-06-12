@@ -41,7 +41,7 @@ class QuizController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-
+            'total_marks'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -50,6 +50,7 @@ class QuizController extends Controller
 
         $quiz = new Quiz();
         $quiz->title = $request->input('title');
+        $quiz->total_marks=$request->input('total_marks');
 
         $course->quizzes()->save($quiz);
         return response()->json([
@@ -68,6 +69,7 @@ class QuizController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total_marks'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -79,10 +81,11 @@ class QuizController extends Controller
 
         $quiz->update([
             'title' => $request->input('title'),
+            'total_marks'=>$request->input('total_marks')
         ]);
         $quiz->save();
         return response()->json([
-            'Edited quiz' => $quiz
+            'quiz' => $quiz
         ], 200);
     }
 

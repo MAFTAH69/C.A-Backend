@@ -30,7 +30,7 @@ class TestController extends Controller
             ], 404);
         }
         return response()->json([
-            'Test' => $test
+            'test' => $test
         ], 200);
     }
 
@@ -41,6 +41,7 @@ class TestController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total_marks'=>'required'
 
         ]);
 
@@ -52,6 +53,7 @@ class TestController extends Controller
 
         $test = new Test();
         $test->title = $request->input('title');
+        $test->total_marks = $request->input('total_marks');
 
         $course->tests()->save($test);
         return response()->json([
@@ -70,6 +72,7 @@ class TestController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'total_marks'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -81,10 +84,11 @@ class TestController extends Controller
 
         $test->update([
             'title' => $request->input('title'),
+            'total_marks' => $request->input('total_marks'),
         ]);
         $test->save();
         return response()->json([
-            'Edited test' => $test
+            'test' => $test
         ], 200);
     }
 

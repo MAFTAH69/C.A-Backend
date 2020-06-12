@@ -35,7 +35,7 @@ class UserController extends Controller
         $user->role;
         $user->courses;
         return response()->json([
-            'User' => $user
+            'user' => $user
         ], 200);
     }
 

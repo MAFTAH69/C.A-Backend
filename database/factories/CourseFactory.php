@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Course::class, function (Faker $faker) {
     return [
-        'tittle' => $faker->text(10),
+        'title' => $faker->text(10),
         'code'=>$faker->text(5),
           ];
 });

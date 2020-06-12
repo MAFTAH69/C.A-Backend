@@ -12,6 +12,6 @@ $factory->define(Postponement::class, function (Faker $faker) {
         'user_id' => $faker->randomNumber(4),
         'attachement'=>$faker->text(20),
         'postponable_type'=>$faker->text(10),
-        'posponable-id'=>$faker->randomNumber(4)
+        'postponable_id'=>$faker->randomNumber(4)
           ];
 });
