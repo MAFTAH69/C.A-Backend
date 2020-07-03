@@ -54,7 +54,6 @@ class UserController extends Controller
             return response()->json([
                 'error' => $validator->errors(),
                 'message' => $validator->errors()->first(),
-                'status' => false
             ], 404);
         }
 

@@ -3,16 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -35,13 +25,6 @@ Route::put('course/{courseId}', ['uses' => 'CourseController@putCourse']);
 Route::post('attachCourse/{status}', ['uses' => 'CourseController@attachCourse']);
 Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
 
-
-//  Routes for Scores
-Route::get('scores', ['uses' => 'ScoreController@getAllScores']);
-// Route::post('test', ['uses' => 'TestController@postTest']);
-// Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
-// Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
-// Route::delete('test/{testId}', ['uses' => 'TestController@deleteTest']);
 
 //  Routes for Assigments
 Route::get('assignments', ['uses' => 'AssignmentController@getAllAssignments']);

@@ -10,7 +10,8 @@ class Course extends Model
     use SoftDeletes;
     protected $fillable = [
         'code',
-        'title'
+        'title',
+        'credits'
     ];
     protected $dates = [
         'deleted_at'

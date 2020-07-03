@@ -11,5 +11,6 @@ $factory->define(Course::class, function (Faker $faker) {
     return [
         'title' => $faker->text(10),
         'code'=>$faker->text(5),
+        'credits'=>$faker->randomNumber(2)
           ];
 });

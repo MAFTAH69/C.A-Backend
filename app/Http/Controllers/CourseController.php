@@ -47,6 +47,7 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'title' => 'required',
+            'credits'=>'required'
 
         ]);
 
@@ -59,6 +60,7 @@ class CourseController extends Controller
         $course = new Course();
         $course->code = $request->input('code');
         $course->title = $request->input('title');
+        $course->credits=$request->input('credits');
 
         // Save course
         $course->save();
@@ -107,6 +109,8 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'title' => 'required',
+            'credits'=>'required'
+
         ]);
 
         if ($validator->fails()) {
@@ -119,10 +123,12 @@ class CourseController extends Controller
         $course->update([
             'code' => $request->input('code'),
             'title' => $request->input('title'),
+            'credits'=>$request->input('credits')
+
         ]);
         $course->save();
         return response()->json([
-            'Edited course' => $course
+            'course' => $course
         ], 200);
     }
 
