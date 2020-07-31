@@ -12,5 +12,7 @@ $factory->define(Course::class, function (Faker $faker) {
         'title' => $faker->text(10),
         'code'=>$faker->text(5),
         'credits'=>$faker->randomNumber(2)
-          ];
+,        'year'=>$faker->randomNumber(2)
+,        'semester'=>$faker->randomNumber(2)
+];
 });

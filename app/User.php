@@ -47,7 +47,13 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function postponements(){
+    public function postponements()
+    {
         return $this->hasMany(Postponement::class);
+    }
+
+    public function courseworks()
+    {
+        return $this->hasMany(Coursework::class);
     }
 }

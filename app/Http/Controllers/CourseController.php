@@ -12,7 +12,7 @@ class CourseController extends Controller
     public function getAllCourses()
     {
         $courses = Course::all();
-        foreach($courses as $course){
+        foreach ($courses as $course) {
             $course->tests;
             $course->quizzes;
             $course->practicals;
@@ -47,7 +47,9 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'title' => 'required',
-            'credits'=>'required'
+            'credits' => 'required',
+            'semester' => 'required',
+            'year' => 'required',
 
         ]);
 
@@ -60,7 +62,9 @@ class CourseController extends Controller
         $course = new Course();
         $course->code = $request->input('code');
         $course->title = $request->input('title');
-        $course->credits=$request->input('credits');
+        $course->credits = $request->input('credits');
+        $course->semester = $request->input('semester');
+        $course->year = $request->input('year');
 
         // Save course
         $course->save();
@@ -109,7 +113,7 @@ class CourseController extends Controller
         $validator = Validator::make($request->all(), [
             'code' => 'required',
             'title' => 'required',
-            'credits'=>'required'
+            'credits' => 'required'
 
         ]);
 
@@ -123,7 +127,7 @@ class CourseController extends Controller
         $course->update([
             'code' => $request->input('code'),
             'title' => $request->input('title'),
-            'credits'=>$request->input('credits')
+            'credits' => $request->input('credits')
 
         ]);
         $course->save();

@@ -11,7 +11,9 @@ class Course extends Model
     protected $fillable = [
         'code',
         'title',
-        'credits'
+        'credits',
+        'semester',
+        'year'
     ];
     protected $dates = [
         'deleted_at'
@@ -37,5 +39,8 @@ class Course extends Model
     public function assignments()
     {
         return $this->hasMany(Assignment::class);
+    }
+    public function courseworks(){
+        return $this->hasMany(Coursework::class);
     }
 }
