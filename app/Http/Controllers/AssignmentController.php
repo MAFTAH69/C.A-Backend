@@ -41,7 +41,8 @@ class AssignmentController extends Controller
         if(!$course) return response()->json(['error'=>'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'total-marks'=>'required'
+            'weight' => 'required',
+            'total_marks'=>'required'
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +54,8 @@ class AssignmentController extends Controller
 
         $assignment = new Assignment();
         $assignment->title = $request->input('title');
+        $assignment->weight = $request->input('weight');
+        $assignment->total_marks = $request->input('total_marks');
 
         $course->assignments()->save($assignment);
         return response()->json([
@@ -71,6 +74,7 @@ class AssignmentController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'weight' => 'required',
             'total-marks'=>'required'
 
         ]);
@@ -84,6 +88,7 @@ class AssignmentController extends Controller
 
         $assignment->update([
             'title' => $request->input('title'),
+            'weight' => $request->input('weight'),
             'total-marks'=>$request->input('total_marks')
 
         ]);

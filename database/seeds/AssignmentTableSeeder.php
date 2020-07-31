@@ -12,6 +12,6 @@ class AssignmentTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Assignment::class, 20)->create();
+        factory(Assignment::class, 3)->create();
     }
 }

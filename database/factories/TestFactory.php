@@ -9,6 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(Test::class, function (Faker $faker) {
     return [
         'title' => $faker->text(10),
+        'weight' => $faker->randomNumber(2),
         'total_marks' => $faker->randomNumber(2),
         'course_id'=>$faker->randomNumber(4)
 

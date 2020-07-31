@@ -12,6 +12,6 @@ class TestTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Test::class, 20)->create();
+        factory(Test::class, 2)->create();
     }
 }

@@ -10,6 +10,7 @@ $factory->define(Quiz::class, function (Faker $faker) {
     return [
         'title' => $faker->text(10),
         'total_marks' => $faker->randomNumber(2),
+        'weight'=>$faker->randomNumber(2),
         'course_id'=>$faker->randomNumber(4)
 
     ];

@@ -43,6 +43,7 @@ class TestController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'weight' => 'required',
             'total_marks'=>'required'
 
         ]);
@@ -55,6 +56,7 @@ class TestController extends Controller
 
         $test = new Test();
         $test->title = $request->input('title');
+        $test->weight = $request->input('weight');
         $test->total_marks = $request->input('total_marks');
 
         $course->tests()->save($test);
@@ -74,6 +76,7 @@ class TestController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'weight' => 'required',
             'total_marks'=>'required'
         ]);
 
@@ -86,6 +89,7 @@ class TestController extends Controller
 
         $test->update([
             'title' => $request->input('title'),
+            'weight' => $request->input('weight'),
             'total_marks' => $request->input('total_marks'),
         ]);
         $test->save();

@@ -12,7 +12,7 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Comment::class, 20)->create();
+        factory(Comment::class, 200)->create();
 
     }
 }

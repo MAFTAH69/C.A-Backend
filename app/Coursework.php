@@ -12,8 +12,8 @@ class Coursework extends Model
     protected $fillable = [
         'user_id',
         'course_id',
-        'sum',
-        // 'remark',
+        'cw',
+        'status',
     ];
 
     protected $dates = [

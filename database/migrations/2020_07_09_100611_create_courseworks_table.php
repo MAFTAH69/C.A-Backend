@@ -15,7 +15,8 @@ class CreateCourseworksTable extends Migration
     {
         Schema::create('courseworks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->float('sum');
+            $table->float('cw');
+            $table->boolean('status');
             $table->bigInteger('course_id');
             $table->bigInteger('user_id');
             $table->softDeletes();

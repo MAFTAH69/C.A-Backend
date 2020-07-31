@@ -10,6 +10,7 @@ class Practical extends Model
     use SoftDeletes;
     protected $fillable = [
         'title',
+        'weight',
         'total_marks'
 
     ];

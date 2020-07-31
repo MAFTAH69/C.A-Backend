@@ -43,6 +43,7 @@ class QuizController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'weight'=>'required',
             'total_marks'=>'required'
         ]);
 
@@ -52,6 +53,7 @@ class QuizController extends Controller
 
         $quiz = new Quiz();
         $quiz->title = $request->input('title');
+        $quiz->weight = $request->input('weight');
         $quiz->total_marks=$request->input('total_marks');
 
         $course->quizzes()->save($quiz);
@@ -71,6 +73,7 @@ class QuizController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
+            'weight' => 'required',
             'total_marks'=>'required'
         ]);
 
@@ -83,6 +86,7 @@ class QuizController extends Controller
 
         $quiz->update([
             'title' => $request->input('title'),
+            'weight' => $request->input('weight'),
             'total_marks'=>$request->input('total_marks')
         ]);
         $quiz->save();

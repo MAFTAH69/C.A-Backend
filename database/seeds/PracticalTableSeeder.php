@@ -12,6 +12,6 @@ class PracticalTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Practical::class, 20)->create();
+        factory(Practical::class, 3)->create();
     }
 }
