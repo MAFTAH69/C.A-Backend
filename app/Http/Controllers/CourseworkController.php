@@ -2,15 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Coursework;
 use App\Score;
+use App\User;
 use Illuminate\Http\Request;
 
 class CourseworkController extends Controller
 {
-    // public function calculateCoursework(){
+    public function calculateCoursework(){
+
+        $students=User::where('role','Student');
+        foreach($students as $student){
+            foreach(Course::all() as $course){
+                $scores=Score::where('user','1' && 'course_id','1');
+                foreach($scores as $score){
+                    $sum=++$score->marks;
+                }
+            }
+            // $coursework= Coursework::create('user_id'=>1, course)
+        }
+
+
     //     $scores=Score::where('user_id','userId' && 'course_id','courseId')
-    // }
+    }
 
 
     // public function postCourse(Request $request)

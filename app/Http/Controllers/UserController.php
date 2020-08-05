@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         $users = User::all();
         foreach ($users as $user) {
-            $user->role;
+            $user->roles;
             $user->courses;
         }
         return response()->json([
@@ -32,7 +32,7 @@ class UserController extends Controller
                 'error' => 'User not found'
             ], 404);
         }
-        $user->role;
+        $user->roles;
         $user->courses;
         return response()->json([
             'user' => $user
@@ -45,7 +45,9 @@ class UserController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'second_name'=>'required',
+            'surname'=>'required',
             'reg_number' => 'required | unique:users',
             'password' => 'required'
         ]);
@@ -57,19 +59,17 @@ class UserController extends Controller
             ], 404);
         }
 
-        $user = User::create(
-            [
-                'name' => $request->input('name'),
-                'reg_number' => $request->input('reg_number'),
-                'password' => bcrypt($request->input('password')),
-            ]
-        );
+        $user = new User();
+        $user->first_name=$request->input('first_name');
+        $user->second_name=$request->input('second_name');
+        $user->surname=$request->input('surname');
+        $user->reg_number=$request->input('reg_number');
+        $user->password=bcrypt($request->input('password'));
+
         $user->save();
-        // $user->role;
-        // $user->courses;
 
         return response()->json([
-            'Registered user' => $user
+            'user' => $user
         ], 200);
         // $token = auth()->login($user);
         // return $this->respondWithToken($token);

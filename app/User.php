@@ -12,7 +12,9 @@ class User extends Authenticatable
 
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'second_name',
+        'surname',
         'reg_number',
         'password',
     ];
@@ -42,9 +44,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class);
     }
 
-    public function role()
+    public function roles()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsToMany(Role::class);
     }
 
     public function postponements()

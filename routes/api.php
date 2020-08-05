@@ -17,6 +17,13 @@ Route::post('register', ['uses' => 'UserController@registerUser']);
 Route::delete('user/{userId}', ['uses' => 'UserController@deleteUser']);
 
 
+// Routes for Roles
+Route::get('roles',['uses'=>'RoleController@getAllRoles']);
+Route::get('role/{roleId}',['uses'=>'RoleController@getSingleRole']);
+Route::delete('role/{roleId}',['uses'=>'RoleController@deleteRole']);
+Route::post('attachRole/{status}',['uses'=>'RoleController@attachRoleToUser']);
+
+
 //  Routes for Courses
 Route::get('courses', ['uses' => 'CourseController@getAllCourses']);
 Route::post('course', ['uses' => 'CourseController@postCourse']);

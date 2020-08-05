@@ -13,6 +13,7 @@ class CourseController extends Controller
     {
         $courses = Course::all();
         foreach ($courses as $course) {
+            $course->users;
             $course->tests;
             $course->quizzes;
             $course->practicals;
@@ -73,34 +74,6 @@ class CourseController extends Controller
         ], 200);
     }
 
-    public function attachCourse(Request $request, $status)
-    {
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'course_id' => 'required',
-
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-            ], 404);
-        }
-
-        $course = Course::find($request->course_id);
-        if (!$course) return response()->json(['error' => 'Course not found'], 404);
-
-        $user = User::find($request->user_id);
-        if (!$user) return response()->json(['error' => 'User not found'], 404);
-
-        if ($status == 'attach') $user->courses()->attach($course);
-
-        if ($status == 'detach') $user->courses()->detach($course);
-
-        $user->courses;
-        return response()->json(['attachement' => $user]);
-    }
-
     public function putCourse(Request $request, $courseId)
     {
         $course = Course::find($courseId);
@@ -149,5 +122,33 @@ class CourseController extends Controller
         return response()->json([
             'message' => 'Course deleted successfully'
         ], 200);
+    }
+
+    public function attachCourse(Request $request, $status)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'course_id' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => $validator->errors(),
+            ], 404);
+        }
+
+        $course = Course::find($request->course_id);
+        if (!$course) return response()->json(['error' => 'Course not found'], 404);
+
+        $user = User::find($request->user_id);
+        if (!$user) return response()->json(['error' => 'User not found'], 404);
+
+        if ($status == 'attach') $user->courses()->attach($course);
+
+        if ($status == 'detach') $user->courses()->detach($course);
+
+        $user->courses;
+        return response()->json(['attachement' => $user]);
     }
 }

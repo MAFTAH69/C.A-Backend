@@ -19,7 +19,7 @@ class CreateCoursesTable extends Migration
             $table->string('title');
             $table->integer('credits');
             $table->integer('semester');
-            $table->string('year');
+            $table->integer('year');
             $table->softDeletes();
             $table->timestamps();
         });
