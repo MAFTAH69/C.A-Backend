@@ -33,7 +33,7 @@ class RoleTableSeeder extends Seeder
 
         // H.O.D Role
         $role = new Role();
-        $role->name = 'HOD';
+        $role->name = 'Head of Department';
         $role->description = 'Head of Department within a college at the University of Dar es salaam';
         $role->save();
 
@@ -45,13 +45,13 @@ class RoleTableSeeder extends Seeder
 
         // D.O.U Role
         $role = new Role();
-        $role->name = 'DOU';
+        $role->name = 'Director of Undergraduate Studies';
         $role->description = 'Director of Undergraduate Studies at the University of Dar es salaam';
         $role->save();
 
         // DVC Role
         $role = new Role();
-        $role->name = 'DVC';
+        $role->name = 'DVC Academic';
         $role->description = 'Deputy Vice Chancelor (Academic) of the University of Dar es salaam';
         $role->save();
     }

@@ -8,55 +8,62 @@ use App\Score;
 use App\User;
 use Illuminate\Http\Request;
 
+
 class CourseworkController extends Controller
 {
-    public function calculateCoursework(){
+    public function calculateCoursework($couserId)
+    {
 
-        $students=User::where('role','Student');
-        foreach($students as $student){
-            foreach(Course::all() as $course){
-                $scores=Score::where('user','1' && 'course_id','1');
-                foreach($scores as $score){
-                    $sum=++$score->marks;
-                }
+        $course = Course::find($couserId);
+
+        if (!$course) return response()->json(['error' => 'course not found']);
+
+
+
+        $users = $course->users()->with(['roles' => function ($q) {
+            $q->where('name', 'Student');
+        }])->get();
+
+        $students = $users->reject(function ($user, $key) {
+            return count($user->roles) == 0;
+        })->values();
+
+        foreach ($students as $student) {
+
+            foreach ($course->tests as $test) {
+                $test->score =    $test->scores->filter(function ($score, $key) use ($student, $test) {
+
+                    $score->test_score = $score->scored_marks / $test->total_marks * $test->weight;
+                    return $score->user_id == $student->id;
+                })->values();
+                // $test->pluck($this.$test->  scores);
             }
-            // $coursework= Coursework::create('user_id'=>1, course)
+            foreach ($course->quizzes as $quiz) {
+                $quiz->scores->reject(function ($score, $key) use ($student, $quiz) {
+                    $score->quiz_score = $score->scored_marks / $quiz->total_marks * $quiz->weight;
+
+                    return $score->user_id != $student->id;
+                })->values();
+            }
+            foreach ($course->assignments as $assignment) {
+                $assignment->scores->reject(function ($score, $key) use ($student, $assignment) {
+                    $score->assignment_score = $score->scored_marks / $assignment->total_marks * $assignment->weight;
+
+                    return $score->user_id == $student->id;
+                })->values();
+            }
+            foreach ($course->practicals as $practical) {
+                $practical->scores->reject(function ($score, $key) use ($student, $practical) {
+                    $score->practical_score = $score->scored_marks / $practical->total_marks * $practical->weight;
+
+                    return $score->user_id != $student->id;
+                })->values();
+            }
+            $course->cw = 100;
+
+            $student->course = $course;
         }
 
-
-    //     $scores=Score::where('user_id','userId' && 'course_id','courseId')
+        return response()->json(['students' => $students]);
     }
-
-
-    // public function postCourse(Request $request)
-    // {
-
-    //     $validator = Validator::make($request->all(), [
-    //         'code' => 'required',
-    //         'title' => 'required',
-    //         'credits' => 'required',
-    //         'semester' => 'required',
-    //         'year' => 'required',
-
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'error' => $validator->errors(),
-    //         ], 404);
-    //     }
-
-    //     $course = new Course();
-    //     $course->code = $request->input('code');
-    //     $course->title = $request->input('title');
-    //     $course->credits = $request->input('credits');
-    //     $course->semester = $request->input('semester');
-    //     $course->year = $request->input('year');
-
-    //     // Save course
-    //     $course->save();
-    //     return response()->json([
-    //         'course' => $course
-    //     ], 200);
-    // }
 }

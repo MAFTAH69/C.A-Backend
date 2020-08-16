@@ -42,7 +42,7 @@ class PracticalController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total-marks'=>'required'
+            'total_marks'=>'required'
 
 
         ]);

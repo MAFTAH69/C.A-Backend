@@ -18,7 +18,6 @@ class CreatePostponementsTable extends Migration
             $table->string('attachement');
             $table->bigInteger('user_id');
             $table->string('postponable_type');
-            $table->integer('postponable_id');
             $table->softDeletes();
             $table->timestamps();
         });

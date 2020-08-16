@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
+use App\Postponement;
+use App\Role;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web');
     }
 
     /**
@@ -23,6 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $users=User::all();
+        $roles=Role::all();
+        $courses=Course::all();
+        $postponements=Postponement::all();
+
+        return view('home')->with(['users'=>$users, 'roles'=>$roles, 'courses'=>$courses,'postponements'=>$postponements]);
     }
 }

@@ -12,7 +12,6 @@ class Postponement extends Model
         'user_id',
         'attachement',
         'postponable_type',
-        'postponable_id'
     ];
     protected $dates = [
         'deleted_at'
@@ -21,7 +20,5 @@ class Postponement extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    // public function postponab(){
-    //     return $this.
-    // }
+    
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Course;
 
 use App\Assignment;
+use App\Events\CreateScoreEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,7 +76,7 @@ class AssignmentController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total-marks'=>'required'
+            'total_marks'=>'required'
 
         ]);
 
@@ -89,7 +90,7 @@ class AssignmentController extends Controller
         $assignment->update([
             'title' => $request->input('title'),
             'weight' => $request->input('weight'),
-            'total-marks'=>$request->input('total_marks')
+            'total_marks'=>$request->input('total_marks')
 
         ]);
         $assignment->save();

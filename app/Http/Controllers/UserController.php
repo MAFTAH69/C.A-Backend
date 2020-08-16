@@ -12,31 +12,56 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+    public function index()
+    {
+        $roles = Role::all();
+
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->roles;
+            $user->courses;
+            $user->postponements;
+        }
+        return view('users', ['users' => $users, 'roles' => $roles]);
+    }
+
+
     public function getAllUsers()
     {
         $users = User::all();
         foreach ($users as $user) {
             $user->roles;
             $user->courses;
+            $user->postponements;
         }
-        return response()->json([
-            'users' => $users
-        ], 200);
+        return response()->json(['users' => $users], 200);
     }
-
-    public function getSingleUser($userId)
+    public function getSingleUserApi($userId)
     {
         $user = User::find($userId);
-        if (!$userId) {
-            return response()->json([
-                'error' => 'User not found'
-            ], 404);
-        }
+        if (!$userId) return redirect()->with('message', 'User not found');
+
         $user->roles;
         $user->courses;
-        return response()->json([
-            'user' => $user
-        ], 200);
+        $user->postponements;
+        $user->scores;
+
+        return response()->json(['user' => $user], 200);
+
+    }
+    public function getSingleUser($userId)
+    {
+        $allRoles=Role::all();
+
+        $user = User::find($userId);
+        if (!$userId) return redirect()->with('message', 'User not found');
+
+        $user->roles;
+        $user->courses;
+        $user->postponements;
+
+        return view('user', ['user' => $user,'allRoles'=>$allRoles]);
     }
 
 
@@ -46,69 +71,35 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'first_name' => 'required',
-            'second_name'=>'required',
-            'surname'=>'required',
+            'surname' => 'required',
             'reg_number' => 'required | unique:users',
-            'password' => 'required'
+            'role' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->errors(),
-                'message' => $validator->errors()->first(),
-            ], 404);
+
+            return back()->withInput()->withErrors($validator);
         }
 
+
+        $role = Role::find($request->input('role'));
+        if (!$role) return back()->with('message', 'Role not found');
+
         $user = new User();
-        $user->first_name=$request->input('first_name');
-        $user->second_name=$request->input('second_name');
-        $user->surname=$request->input('surname');
-        $user->reg_number=$request->input('reg_number');
-        $user->password=bcrypt($request->input('password'));
+        $user->first_name = $request->input('first_name');
+        $user->middle_name = $request->input('middle_name');
+        $user->surname = $request->input('surname');
+        $user->reg_number = $request->input('reg_number');
+        $user->department = $request->input('department');
+        $user->program = $request->input('program');
+        $user->year = $request->input('year');
+        $user->password = bcrypt('@Coict2020');
 
         $user->save();
 
-        return response()->json([
-            'user' => $user
-        ], 200);
-        // $token = auth()->login($user);
-        // return $this->respondWithToken($token);
-
+        $user->roles()->attach($role);
+        return back()->with('message', 'User registered successfully');
     }
-
-
-    // *************** Function for Login *************************
-    public function login()
-    {
-        $credentials = request(['reg_number', 'password']);
-
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
-    }
-
-
-    // *************** Function for Logout *************************
-    public function logout()
-    {
-        auth()->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-
-    // *************** Function for User Token *************************
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60
-        ]);
-    }
-
 
 
     // *************** Function for Deleting User *************************
@@ -116,13 +107,53 @@ class UserController extends Controller
     {
         $user = User::find($userId);
         if (!$user) {
-            return response()->json([
-                'error' => 'User not found'
-            ], 404);
+            return redirect()->with('message', 'User not found');
         }
         $user->delete();
-        return response()->json([
-            'message' => 'User deleted successfully'
-        ], 200);
+        return back()->with('message', 'User deleted successfully');
+    }
+
+
+    public function allStudents()
+    {
+        $role = Role::whereName('Student')->first();
+
+        $students = $role->users;
+
+        return view('students', ['students' => $students]);
+    }
+    public function allInstructors()
+    {
+        $role = Role::whereName('Instructor')->first();
+
+        $instructors = $role->users;
+
+        return view('instructors', ['instructors' => $instructors]);
+    }
+
+    public function getSingleStudent($userId)
+    {
+        $allCourses = Course::all();
+
+        $user = User::find($userId);
+        if (!$userId) return redirect()->with('message', 'Student not found');
+
+        $user->roles;
+        $user->courses;
+        $user->postponements;
+
+        return view('student', ['user' => $user, 'allCourses' => $allCourses]);
+    }
+    public function getSingleInstructor($userId)
+    {
+        $allCourses = Course::all();
+
+        $user = User::find($userId);
+        if (!$userId) return redirect()->with('message', 'Instructor not found');
+
+        $user->roles;
+        $user->courses;
+
+        return view('instructor', ['user' => $user, 'allCourses' => $allCourses]);
     }
 }

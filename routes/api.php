@@ -8,20 +8,36 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::group([
+
+    'middleware' => 'api',
+
+
+], function () {
+    Route::get('users', ['uses' => 'UserController@getAllUsers'])->middleware('auth');
+
+
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('user', 'AuthController@me');
+});
+
 // Routes for Users
-Route::post('login', ['uses' => 'UserController@login']);
-Route::post('logout', ['uses' => 'UserController@logout']);
-Route::get('users', ['uses' => 'UserController@getAllUsers']);
-Route::get('user/{userId}', ['uses' => 'UserController@getSingleUser']);
-Route::post('register', ['uses' => 'UserController@registerUser']);
-Route::delete('user/{userId}', ['uses' => 'UserController@deleteUser']);
+// Route::post('login', ['uses' => 'UserController@login']);
+// Route::post('logout', ['uses' => 'UserController@logout']);
+Route::get('user/{userId}', ['uses' => 'UserController@getSingleUserApi']);
+// Route::post('register', ['uses' => 'UserController@registerUser']);
+// Route::delete('user/{userId}', ['uses' => 'UserController@deleteUser']);
 
 
 // Routes for Roles
-Route::get('roles',['uses'=>'RoleController@getAllRoles']);
-Route::get('role/{roleId}',['uses'=>'RoleController@getSingleRole']);
-Route::delete('role/{roleId}',['uses'=>'RoleController@deleteRole']);
-Route::post('attachRole/{status}',['uses'=>'RoleController@attachRoleToUser']);
+Route::get('role/{roleId}', ['uses' => 'RoleController@getSingleRole']);
+Route::get('roles', ['uses' => 'RoleController@getAllRoles']);
+Route::post('role', ['uses' => 'RoleController@postRole']);
+Route::delete('role/{roleId}', ['uses' => 'RoleController@deleteRole']);
+Route::post('attachRole/{status}', ['uses' => 'RoleController@attachRoleToUser']);
 
 
 //  Routes for Courses
@@ -31,6 +47,8 @@ Route::get('course/{courseId}', ['uses' => 'CourseController@getSingleCourse']);
 Route::put('course/{courseId}', ['uses' => 'CourseController@putCourse']);
 Route::post('attachCourse/{status}', ['uses' => 'CourseController@attachCourse']);
 Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
+Route::get('scores', ['uses' => 'CourseController@getAllScores']);
+
 
 
 //  Routes for Assigments
@@ -98,3 +116,8 @@ Route::get('postponement/{postponementId}', ['uses' => 'PostponementController@g
 Route::put('postponement/{postponementId}', ['uses' => 'PostponementController@putPostponement']);
 Route::delete('postponement/{postponementId}', ['uses' => 'PostponementController@deletePostponement']);
 Route::get('postponement/attachement/{postponementId}', ['uses' => 'PostponementController@viewAttachementFile']);
+
+
+//calculate course work
+Route::get('calculate/{courseId}', ['uses' => 'CourseworkController@calculateCoursework']);
+Route::post('scores/import',['uses'=>'ScoreController@import']);

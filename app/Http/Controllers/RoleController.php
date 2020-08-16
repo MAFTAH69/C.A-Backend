@@ -6,6 +6,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 class RoleController extends Controller
 {
@@ -24,14 +25,47 @@ class RoleController extends Controller
     {
         $role = Role::find($roleId);
         if (!$roleId) {
-            return response()->json([
-                'error' => 'Role not found'
-            ], 404);
+            if (REQ::is('api/*'))
+                return response()->json([
+                    'error' => 'Role not found'
+                ], 404);
+
+            return redirect()->with('message', 'Role not found');
         }
         $role->users;
-        return response()->json([
-            'role' => $role
-        ], 200);
+        if (REQ::is('api/*'))
+
+            return response()->json([
+                'role' => $role
+            ], 200);
+
+        return view('role', ['role' => $role]);
+    }
+
+
+    public function postRole(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'description' => 'required',
+
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+
+        }
+
+        $role = new Role();
+        $role->name = $request->input('name');
+        $role->description = $request->input('description');
+
+
+        // Save course
+        $role->save();
+        return back()->with('message', 'Role added successfully');
+
     }
 
     public function putRole(Request $request, $roleId)
@@ -69,15 +103,12 @@ class RoleController extends Controller
     {
         $role = Role::find($roleId);
         if (!$role) {
-            return response()->json([
-                'error' => 'Role does not exist'
-            ], 404);
+            return redirect()->with('error', 'Role not found');
         }
 
         $role->delete();
-        return response()->json([
-            'message' => 'Role deleted successfully'
-        ], 200);
+
+        return redirect('roles')->with('message', 'Role deleted successfully');
     }
     public function attachRoleToUser(Request $request, $status)
     {
@@ -104,6 +135,17 @@ class RoleController extends Controller
         if ($status == 'detach') $user->roles()->detach($role);
 
         $user->roles;
-        return response()->json(['attachement' => $user]);
+
+        return back()->with('message', 'Successfully');
+    }
+
+    public function index()
+    {
+        // return view('home');
+        $roles = Role::all();
+        foreach ($roles as $role) {
+            $role->users;
+        }
+        return view('roles', ['roles' => $roles]);
     }
 }

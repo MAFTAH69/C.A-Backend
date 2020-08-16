@@ -2,28 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
+use App\Imports\ScoresImport;
 use App\Score;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ScoreController extends Controller
 {
-    public function getAllScores()
-    {
-        $scores = Score::all();
+    // public function getAllScores()
+    // {
+    //     $scores = Score::all();
 
-        return response()->json([
-            'scores' => $scores
-        ], 200);
-    }
+    //     return response()->json([
+    //         'scores' => $scores
+    //     ], 200);
+    // }
 
-    public function calculateCourseWork($userId)
+
+
+    public function import(Request $request)
     {
-        $user = User::find($userId);
-        if (!$user) return response()->json(['error' => 'User not found']);
+        $request->validate([
+            'import_file' => 'required|file|mimes:xls,xlsx'
+        ]);
+
+        $path = $request->file('import_file');
+
+        $data = Excel::import(new ScoresImport, $path);
+
+        return response()->json(['message' => 'File uploaded successfully'], 200);
     }
+}
+
+
+
+
+
+
 
 
     // public function getSingleScore($scoreId)
@@ -113,4 +130,3 @@ class ScoreController extends Controller
     //         'message' => 'Score deleted successfully'
     //     ], 200);
     // }
-}

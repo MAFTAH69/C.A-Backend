@@ -15,11 +15,60 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth/login');
-
 });
-
 
 Auth::routes();
 
-Route::get('/welcome', 'WelcomeController@index')->name('welcome');
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['middleware' => 'auth'], function () {
+
+    // COURSES ROUTES
+    Route::get('courses', 'CourseController@index')->name('courses');
+    Route::post('add_course', 'CourseController@postCourse')->name('add_course');
+    Route::get('delete_course/{courseId}', 'CourseController@deleteCourse')->name('delete_course');
+    Route::get('course/{courseId}', 'CourseController@getSingleCourse')->name('course');
+    Route::post('attach_course/{status}', 'CourseController@attachCourse')->name('attach_course');
+    Route::post('detach_course/{status}', 'CourseController@attachCourse')->name('detach_course');
+    Route::get('edit_course/{courseId}', 'CourseController@putCourse')->name('edit_course');
+
+
+    //  USERS ROUTES
+    Route::get('users', 'UserController@index')->name('users');
+    Route::get('user/{userId}', 'UserController@getSingleUser')->name('user');
+    Route::get('delete_user/{userId}', 'UserController@deleteUser')->name('delete_user');
+    Route::post('register_user', 'UserController@registerUser')->name('register_user');
+    Route::put('edit_user', 'UserController@putUser')->name('edit_user');
+
+
+    //  ROLES ROUTES
+    Route::get('roles', 'RoleController@index')->name('roles');
+    Route::get('role/{roleId}', 'RoleController@getSingleRole')->name('role');
+    Route::get('delete_role/{roleId}', 'RoleController@deleteRole')->name('delete_role');
+    Route::post('add_role', 'RoleController@postRole')->name('add_role');
+    Route::post('attach_role/{status}', 'RoleController@attachRoleToUser')->name('attach_role');
+    Route::post('detach_role/{status}', 'RoleController@attachRoleToUser')->name('detach_role');
+    Route::post('attach_role/{status}', 'RoleController@attachRoleToUser')->name('attach_role');
+
+
+    //  POSTPONEMENTS ROUTES
+    Route::get('postponements', 'PostponementController@index')->name('postponements');
+    Route::get('postponement/{postponementId}', 'PostponementController@getSinglePostponement')->name('postponement');
+    Route::get('delete_postponement/{postponementId}', 'PostponementController@deletePostponement')->name('delete_postponement');
+    Route::get('postponement/attachement/{postponementId}','PostponementController@viewAttachementFile')->name('postponement/attachement');
+
+    //  STUDENTS ROUTES
+    Route::get('students', 'UserController@allStudents')->name('students');
+    Route::get('student/{studentId}', 'UserController@getSingleStudent')->name('student');
+    Route::get('delete_student/{studentId}', 'UserController@deleteUser')->name('delete_student');
+
+
+
+    //  INSTRUCTORS ROUTES
+    Route::get('instructors', 'UserController@allInstructors')->name('instructors');
+    Route::get('instructor/{instructorId}', 'UserController@getSingleInstructor')->name('instructor');
+    Route::get('delete_instructor/{instructorId}', 'UserController@deleteUser')->name('delete_instructor');
+});
+
+

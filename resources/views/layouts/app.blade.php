@@ -41,20 +41,23 @@
             padding-bottom: 10px;
         }
 
+        .attachements {
+            display: flex;
+            justify-content: center;
+            border: 1px solid rgb(224, 224, 228);
+            text-align: left;
+        }
+
     </style>
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-lg">
             <div class="container">
-                {{-- <a class="navbar-brand" href="{{ url('/') }}">
-                    --}}
-                    {{-- {{ config('app.name', 'Laravel') }}
-                    --}}
-                    <img src="{{ asset('/asset/images/udsm.png') }}" height="70px">
 
-                    {{-- </a> --}}
+                <a href="{{ route('home') }}"> <img src="{{ asset('/asset/images/udsm.png') }}" height="70px"></a>
+                <h5><b>COURSEWORK ASSESSMENT AND POSTPONEMENT SYSTEM</b></h5>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">
@@ -63,9 +66,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
 
-                    </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -81,14 +82,15 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    <i class="fas fa-user"></i> {{ Auth::user()->reg_number }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
+                                                document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -104,10 +106,12 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            {{-- @yield('sidebar') --}}
 
-            @yield('content')
+        <main>
+            <div class="row">
+                @yield('sidebar')
+                @yield('content')
+            </div>
         </main>
     </div>
 </body>

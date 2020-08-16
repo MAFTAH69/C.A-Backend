@@ -9,10 +9,10 @@ class Score extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'course_id',
-        'marks',
-        'scorable_type',
-        'scorable_id'
+        // 'course_id',
+        // 'marks',
+        // 'scorable_type',
+        // 'scorable_id'
     ];
     protected $dates = [
         'deleted_at'

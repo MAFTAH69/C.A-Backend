@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h3>COURSEWORK ASSESSMENT AND POSTPONEMENT SYSTEM</h3>
 
-            <div class="card">
+@section('content')
+<div class="col-md-12">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            {{-- <h3>COURSEWORK ASSESSMENT AND POSTPONEMENT SYSTEM</h3> --}}
+
+            <div class="card ">
                 <div class="card-header">{{ __('LOGIN') }}</div>
 
                 <div class="card-body">
@@ -71,5 +73,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
