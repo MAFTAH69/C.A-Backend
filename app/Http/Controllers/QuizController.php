@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Quiz;
 use App\Events\CreateScoreEvent;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 class QuizController extends Controller
 {
     public function getAllQuizzes()
     {
         $quizzes = Quiz::all();
-        foreach($quizzes as $quiz){
+        foreach ($quizzes as $quiz) {
             $quiz->scores;
         }
         return response()->json([
@@ -23,6 +25,7 @@ class QuizController extends Controller
 
     public function getSingleQuiz($quizId)
     {
+        $users = User::all();
         $quiz = Quiz::find($quizId);
         if (!$quizId) {
             return response()->json([
@@ -31,9 +34,13 @@ class QuizController extends Controller
         }
         $quiz->scores;
 
-        return response()->json([
-            'Quiz' => $quiz
-        ], 200);
+        foreach ($quiz->scores as $score)
+            $score->quiz_score = $score->scored_marks / $quiz->total_marks * $quiz->weight;
+        if (REQ::is('api/*'))
+            return response()->json([
+                'Quiz' => $quiz
+            ], 200);
+        return view('quiz')->with(['quiz' => $quiz, 'users' => $users]);
     }
 
     public function postQuiz(Request $request, $courseId)
@@ -43,8 +50,8 @@ class QuizController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required',
-            'weight'=>'required',
-            'total_marks'=>'required'
+            'weight' => 'required',
+            'total_marks' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -54,7 +61,7 @@ class QuizController extends Controller
         $quiz = new Quiz();
         $quiz->title = $request->input('title');
         $quiz->weight = $request->input('weight');
-        $quiz->total_marks=$request->input('total_marks');
+        $quiz->total_marks = $request->input('total_marks');
 
         $course->quizzes()->save($quiz);
         return response()->json([
@@ -74,7 +81,7 @@ class QuizController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +94,7 @@ class QuizController extends Controller
         $quiz->update([
             'title' => $request->input('title'),
             'weight' => $request->input('weight'),
-            'total_marks'=>$request->input('total_marks')
+            'total_marks' => $request->input('total_marks')
         ]);
         $quiz->save();
         return response()->json([

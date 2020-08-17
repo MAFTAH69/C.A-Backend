@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Events\CreateScoreEvent;
 use App\Test;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 class TestController extends Controller
 {
     public function getAllTests()
     {
         $tests = Test::all();
-        foreach($tests as $test){
+        foreach ($tests as $test) {
             $test->scores;
         }
         return response()->json([
@@ -23,17 +25,23 @@ class TestController extends Controller
 
     public function getSingleTest($testId)
     {
+        $users=User::all();
         $test = Test::find($testId);
         if (!$testId) {
             return response()->json([
                 'error' => 'Test not found'
             ], 404);
         }
-        $test->scores;
 
-        return response()->json([
-            'test' => $test
-        ], 200);
+        $test->scores;
+        foreach ($test->scores as $score)
+            $score->test_score = $score->scored_marks / $test->total_marks * $test->weight;
+
+        if (REQ::is('api/*'))
+            return response()->json([
+                'test' => $test
+            ], 200);
+        return view('test')->with(['test'=> $test,'users'=>$users]);
     }
 
     public function postTest(Request $request, $courseId)
@@ -44,7 +52,7 @@ class TestController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
 
         ]);
 
@@ -77,7 +85,7 @@ class TestController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -117,7 +125,7 @@ class TestController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
-            'scored_marks' =>'required',
+            'scored_marks' => 'required',
         ]);
 
         if ($validator->fails()) {

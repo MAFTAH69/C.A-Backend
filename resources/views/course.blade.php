@@ -96,29 +96,27 @@
                         </div>
                         <div class="col-4" style="background-color:rgb(224, 224, 228)">
                             @foreach ($course->tests as $test)
-                                <a href="#" class="btn btn-outline-primary  " style="margin-top: 5%" data-toggle="modal"
-                                    data-target="#courseworkModal">
+                                <a href="{{ route('test', $test->id) }}" class="btn btn-outline-primary  "
+                                    style="margin-top: 5%">
                                     <h4><b> {{ $test->title }}</b></h4>
                                 </a>
                             @endforeach
                             <br>
                             @foreach ($course->quizzes as $quiz)
-                                <a href="#" class="btn btn-outline-primary  " style="margin-top: 5%" data-toggle="modal"
-                                    data-target="#courseworkModal">
+                                <a href="{{ route('quiz', $quiz->id) }}" class="btn btn-outline-primary  "
+                                    style="margin-top: 5%">
                                     <h4><b> {{ $quiz->title }}</b></h4>
                                 </a>
                             @endforeach
                             <br>
                             @foreach ($course->practicals as $practical)
-                                <a href="#" class="btn btn-outline-primary  " style="margin-top: 5%" data-toggle="modal"
-                                    data-target="#courseworkModal">
+                                <a href="{{ route('practical', $practical->id) }}" class="btn btn-outline-primary  " style="margin-top: 5%">
                                     <h4><b> {{ $practical->title }}</b></h4>
                                 </a>
                             @endforeach
                             <br>
                             @foreach ($course->assignments as $assignment)
-                                <a href="#" class="btn btn-outline-primary  " style="margin-top: 5%" data-toggle="modal"
-                                    data-target="#courseworkModal">
+                                <a href="{{ route('assignment', $assignment->id) }}" class="btn btn-outline-primary  " style="margin-top: 5%">
                                     <h4><b> {{ $assignment->title }}</b></h4>
                                 </a>
                             @endforeach
@@ -147,7 +145,6 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($course->users as $index => $user)
-
                                                 @foreach ($user->roles as $role)
                                                     @if ($role->name == 'Student')
                                                         <tr>
@@ -156,7 +153,6 @@
                                                             <td>{{ $user->surname }} {{ $user->first_name }}
                                                                 {{ $user->middle_name }}</td>
                                                         </tr>
-
                                                     @endif
                                                 @endforeach
                                             @endforeach
@@ -250,37 +246,6 @@
                 </div>
             </div>
 
-            <!-- ADD COURSE MODAL -->
-            <div class="modal fade" id="courseworkModal">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title">Test Scores</h5>
-                            <button class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table table-stripped">
-                                <tr>
-                                    <thead class="thead-dark">
-                                        <th>#</th>
-                                        <th>Reg. Number</th>
-                                        <th>Marks</th>
-                                    </thead>
-                                </tr>
-                                <tbody>
-                                    <tr>
-                                        <td>hjkl</td>
-                                        <td>hjkl</td>
-                                        <td>hjkl</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <style>
 

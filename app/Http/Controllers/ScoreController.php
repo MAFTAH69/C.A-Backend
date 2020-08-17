@@ -11,15 +11,14 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ScoreController extends Controller
 {
-    // public function getAllScores()
-    // {
-    //     $scores = Score::all();
+    public function getAllScores()
+    {
+        $scores = Score::all();
 
-    //     return response()->json([
-    //         'scores' => $scores
-    //     ], 200);
-    // }
-
+        return response()->json([
+            'scores' => $scores
+        ], 200);
+    }
 
 
     public function import(Request $request)

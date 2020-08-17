@@ -30,10 +30,11 @@ class CourseController extends Controller
             $course->assignments;
             foreach ($course->assignments as $assignment) $assignment->scores;
         }
-
-        return response()->json([
-            'courses' => $courses
-        ], 200);
+        if (REQ::is('api/*'))
+            return response()->json([
+                'courses' => $courses
+            ], 200);
+        return view('courses', ['courses' => $courses]);
     }
 
     public function getSingleCourse($courseId)
@@ -163,26 +164,4 @@ class CourseController extends Controller
         return back()->with('message', 'Successfully');
     }
 
-    public function index()
-    {
-        $courses = Course::all();
-        foreach ($courses as $course) {
-            $course->users;
-        }
-        return view('courses', ['courses' => $courses]);
-    }
-
-
-    // SCORES
-    public function getAllScores()
-    {
-        $scores = Score::all();
-        // foreach ($scores as $score) {
-
-        // }
-
-        return response()->json([
-            'scores' => $scores
-        ], 200);
-    }
 }

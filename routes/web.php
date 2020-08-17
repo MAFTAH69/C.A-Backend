@@ -25,7 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
 
     // COURSES ROUTES
-    Route::get('courses', 'CourseController@index')->name('courses');
+    Route::get('courses', 'CourseController@getAllCourses')->name('courses');
     Route::post('add_course', 'CourseController@postCourse')->name('add_course');
     Route::get('delete_course/{courseId}', 'CourseController@deleteCourse')->name('delete_course');
     Route::get('course/{courseId}', 'CourseController@getSingleCourse')->name('course');
@@ -34,8 +34,28 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('edit_course/{courseId}', 'CourseController@putCourse')->name('edit_course');
 
 
+    // TESTS ROUTES
+    // Route::get('courses', 'CourseController@index')->name('courses');
+    Route::get('test/{testId}', 'TestController@getSingleTest')->name('test');
+
+
+    // QUIZZES ROUTES
+    // Route::get('courses', 'CourseController@index')->name('courses');
+    Route::get('quiz/{quizId}', 'QuizController@getSingleQuiz')->name('quiz');
+
+
+    // ASSIGNMENTS ROUTES
+    // Route::get('courses', 'CourseController@index')->name('courses');
+    Route::get('assignment/{assignmentId}', 'AssignmentController@getSingleAssignment')->name('assignment');
+
+
+    // PRACTICALS ROUTES
+    // Route::get('courses', 'CourseController@index')->name('courses');
+    Route::get('practical/{practicalId}', 'PracticalController@getSinglePractical')->name('practical');
+
+
     //  USERS ROUTES
-    Route::get('users', 'UserController@index')->name('users');
+    Route::get('users', 'UserController@getAllUsers')->name('users');
     Route::get('user/{userId}', 'UserController@getSingleUser')->name('user');
     Route::get('delete_user/{userId}', 'UserController@deleteUser')->name('delete_user');
     Route::post('register_user', 'UserController@registerUser')->name('register_user');
@@ -56,7 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('postponements', 'PostponementController@index')->name('postponements');
     Route::get('postponement/{postponementId}', 'PostponementController@getSinglePostponement')->name('postponement');
     Route::get('delete_postponement/{postponementId}', 'PostponementController@deletePostponement')->name('delete_postponement');
-    Route::get('postponement/attachement/{postponementId}','PostponementController@viewAttachementFile')->name('postponement/attachement');
+    Route::get('postponement/attachement/{postponementId}', 'PostponementController@viewAttachementFile')->name('postponement/attachement');
 
     //  STUDENTS ROUTES
     Route::get('students', 'UserController@allStudents')->name('students');
@@ -70,5 +90,3 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('instructor/{instructorId}', 'UserController@getSingleInstructor')->name('instructor');
     Route::get('delete_instructor/{instructorId}', 'UserController@deleteUser')->name('delete_instructor');
 });
-
-

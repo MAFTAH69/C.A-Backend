@@ -27,6 +27,7 @@ Route::group([
 // Routes for Users
 // Route::post('login', ['uses' => 'UserController@login']);
 // Route::post('logout', ['uses' => 'UserController@logout']);
+Route::get('users', ['uses' => 'UserController@getAllUsers']);
 Route::get('user/{userId}', ['uses' => 'UserController@getSingleUserApi']);
 // Route::post('register', ['uses' => 'UserController@registerUser']);
 // Route::delete('user/{userId}', ['uses' => 'UserController@deleteUser']);
@@ -47,7 +48,7 @@ Route::get('course/{courseId}', ['uses' => 'CourseController@getSingleCourse']);
 Route::put('course/{courseId}', ['uses' => 'CourseController@putCourse']);
 Route::post('attachCourse/{status}', ['uses' => 'CourseController@attachCourse']);
 Route::delete('course/{courseId}', ['uses' => 'CourseController@deleteCourse']);
-Route::get('scores', ['uses' => 'CourseController@getAllScores']);
+Route::get('scores', ['uses' => 'ScoreController@getAllScores']);
 
 
 
@@ -121,3 +122,7 @@ Route::get('postponement/attachement/{postponementId}', ['uses' => 'Postponement
 //calculate course work
 Route::get('calculate/{courseId}', ['uses' => 'CourseworkController@calculateCoursework']);
 Route::post('scores/import',['uses'=>'ScoreController@import']);
+
+
+//  ROUTES FOR COMMENTS
+Route::post('comment/{userId}',['uses'=>'CommentController@postComment']);

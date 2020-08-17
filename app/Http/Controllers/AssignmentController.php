@@ -1,19 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Course;
 
 use App\Assignment;
 use App\Events\CreateScoreEvent;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 class AssignmentController extends Controller
 {
     public function getAllAssignments()
     {
         $assignments = Assignment::all();
-        foreach($assignments as $assignment){
+        foreach ($assignments as $assignment) {
             $assignment->scores;
         }
         return response()->json([
@@ -22,7 +25,9 @@ class AssignmentController extends Controller
     }
 
     public function getSingleAssignment($assignmentId)
+
     {
+        $users=User::all();
         $assignment = Assignment::find($assignmentId);
         if (!$assignmentId) {
             return response()->json([
@@ -30,20 +35,23 @@ class AssignmentController extends Controller
             ], 404);
         }
         $assignment->scores;
-
-        return response()->json([
-            'assignment' => $assignment
-        ], 200);
+        foreach ($assignment->scores as $score)
+        $score->assignment_score = $score->scored_marks / $assignment->total_marks * $assignment->weight;
+        if (REQ::is('api/*'))
+            return response()->json([
+                'assignment' => $assignment
+            ], 200);
+        return view('assignment')->with(['assignment'=> $assignment,'users'=> $users]);
     }
 
     public function postAssignment(Request $request, $courseId)
     {
-        $course=Course::find($courseId);
-        if(!$course) return response()->json(['error'=>'Course not found']);
+        $course = Course::find($courseId);
+        if (!$course) return response()->json(['error' => 'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -76,7 +84,7 @@ class AssignmentController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
 
         ]);
 
@@ -90,7 +98,7 @@ class AssignmentController extends Controller
         $assignment->update([
             'title' => $request->input('title'),
             'weight' => $request->input('weight'),
-            'total_marks'=>$request->input('total_marks')
+            'total_marks' => $request->input('total_marks')
 
         ]);
         $assignment->save();

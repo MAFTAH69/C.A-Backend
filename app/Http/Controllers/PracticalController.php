@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Practical;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 class PracticalController extends Controller
 {
     public function getAllPracticals()
     {
         $practicals = Practical::all();
-        foreach($practicals as $practical){
+        foreach ($practicals as $practical) {
             $practical->scores;
         }
         return response()->json([
@@ -22,6 +24,7 @@ class PracticalController extends Controller
 
     public function getSinglePractical($practicalId)
     {
+        $users=User::all();
         $practical = Practical::find($practicalId);
         if (!$practicalId) {
             return response()->json([
@@ -29,20 +32,23 @@ class PracticalController extends Controller
             ], 404);
         }
         $practical->scores;
-
-        return response()->json([
-            'practical' => $practical
-        ], 200);
+        foreach ($practical->scores as $score)
+        $score->practical_score = $score->scored_marks / $practical->total_marks * $practical->weight;
+        if (REQ::is('api/*'))
+            return response()->json([
+                'practical' => $practical
+            ], 200);
+        return view('practical')->with(['practical'=> $practical,'users'=>$users]);
     }
 
     public function postPractical(Request $request, $courseId)
     {
-        $course=Course::find($courseId);
-        if(!$course) return response()->json(['error'=>'Course not found']);
+        $course = Course::find($courseId);
+        if (!$course) return response()->json(['error' => 'Course not found']);
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
 
 
         ]);
@@ -78,7 +84,7 @@ class PracticalController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'weight' => 'required',
-            'total_marks'=>'required'
+            'total_marks' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -91,7 +97,7 @@ class PracticalController extends Controller
         $practical->update([
             'title' => $request->input('title'),
             'weight' => $request->input('weight'),
-            'total_marks'=>$request->input('total_marks')
+            'total_marks' => $request->input('total_marks')
         ]);
         $practical->save();
         return response()->json([

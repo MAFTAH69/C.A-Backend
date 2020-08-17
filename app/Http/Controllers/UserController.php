@@ -8,12 +8,12 @@ use App\Course;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 
 class UserController extends Controller
 {
-
-    public function index()
+    public function getAllUsers()
     {
         $roles = Role::all();
 
@@ -23,19 +23,9 @@ class UserController extends Controller
             $user->courses;
             $user->postponements;
         }
+        if (REQ::is('api/*'))
+            return response()->json(['users' => $users], 200);
         return view('users', ['users' => $users, 'roles' => $roles]);
-    }
-
-
-    public function getAllUsers()
-    {
-        $users = User::all();
-        foreach ($users as $user) {
-            $user->roles;
-            $user->courses;
-            $user->postponements;
-        }
-        return response()->json(['users' => $users], 200);
     }
     public function getSingleUserApi($userId)
     {
@@ -48,11 +38,10 @@ class UserController extends Controller
         $user->scores;
 
         return response()->json(['user' => $user], 200);
-
     }
     public function getSingleUser($userId)
     {
-        $allRoles=Role::all();
+        $allRoles = Role::all();
 
         $user = User::find($userId);
         if (!$userId) return redirect()->with('message', 'User not found');
@@ -61,7 +50,7 @@ class UserController extends Controller
         $user->courses;
         $user->postponements;
 
-        return view('user', ['user' => $user,'allRoles'=>$allRoles]);
+        return view('user', ['user' => $user, 'allRoles' => $allRoles]);
     }
 
 

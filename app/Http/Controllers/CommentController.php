@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,10 +30,13 @@ class CommentController extends Controller
         ], 200);
     }
 
-    public function postComment(Request $request)
+    public function postComment(Request $request, $userId)
     {
+        $user=User::find($userId);
+        if(!$user) return response()->json(['error','User not found']);
+
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
+            // 'user_id' => 'required',
             'body' => 'required',
             'commentable_type' => 'required',
             'commentable_id' => 'required',
@@ -47,12 +51,13 @@ class CommentController extends Controller
         }
 
         $comment = new Comment();
-        
+
+        // $comment->user_id = $request->input('user_id');
         $comment->body = $request->input('body');
         $comment->commentable_type = $request->input('commentable_type');
         $comment->commentable_id = $request->input('commentable_id');
 
-        $comment->save();
+        $user->comments()->save($comment);
         return response()->json([
             'comment' => $comment
         ], 200);

@@ -167,12 +167,8 @@
                                             <select required name="course_id" class="dropdown-select form-control">
                                                 <option value="">Select Course</option>
                                                 @foreach ($allCourses as $allCourse)
-                                                    {{-- @if ($allCourse->id != $course->id)
-                                                        --}}
                                                         <option value="{{ $allCourse->id }}">{{ $allCourse->code }}:
                                                             {{ $allCourse->title }}</option>
-                                                        {{-- @endif
-                                                    --}}
                                                 @endforeach
 
                                             </select>
