@@ -24,13 +24,22 @@ Route::group([
     Route::post('user', 'AuthController@me');
 });
 
+Route::group([
+
+    'middleware' => 'api',
+
+
+], function () {
+    Route::get('users', ['uses' => 'UserController@getAllUsers'])->middleware('auth');
+
+    Route::post('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('user', 'AuthController@me');
+
+
 // Routes for Users
-// Route::post('login', ['uses' => 'UserController@login']);
-// Route::post('logout', ['uses' => 'UserController@logout']);
 Route::get('users', ['uses' => 'UserController@getAllUsers']);
 Route::get('user/{userId}', ['uses' => 'UserController@getSingleUserApi']);
-// Route::post('register', ['uses' => 'UserController@registerUser']);
-// Route::delete('user/{userId}', ['uses' => 'UserController@deleteUser']);
 
 
 // Routes for Roles
@@ -55,7 +64,6 @@ Route::get('scores', ['uses' => 'ScoreController@getAllScores']);
 //  Routes for Assigments
 Route::get('assignments', ['uses' => 'AssignmentController@getAllAssignments']);
 Route::post('assignment/{courseId}', ['uses' => 'AssignmentController@postAssignment']);
-Route::post('assignmentScore/{assignmentId}', ['uses' => 'AssignmentController@postScoreForAnAssignment']);
 Route::get('assignment/{assignmentId}', ['uses' => 'AssignmentController@getSingleAssignment']);
 Route::put('assignment/{assignmentId}', ['uses' => 'AssignmentController@putAssignment']);
 Route::delete('assignment/{assignmentId}', ['uses' => 'AssignmentController@deleteAssignment']);
@@ -63,7 +71,6 @@ Route::delete('assignment/{assignmentId}', ['uses' => 'AssignmentController@dele
 //  Routes for Practicals
 Route::get('practicals', ['uses' => 'PracticalController@getAllPracticals']);
 Route::post('practical/{courseId}', ['uses' => 'PracticalController@postPractical']);
-Route::post('practicalScore/{practicalId}', ['uses' => 'PracticalController@postScoreForAPractical']);
 Route::get('practical/{practicalId}', ['uses' => 'PracticalController@getSinglePractical']);
 Route::put('practical/{practicalId}', ['uses' => 'PracticalController@putPractical']);
 Route::delete('practical/{practicalId}', ['uses' => 'PracticalController@deletePractical']);
@@ -71,7 +78,6 @@ Route::delete('practical/{practicalId}', ['uses' => 'PracticalController@deleteP
 //  Routes for Quizes
 Route::get('quizzes', ['uses' => 'QuizController@getAllQuizzes']);
 Route::post('quiz/{courseId}', ['uses' => 'QuizController@postQuiz']);
-Route::post('quizScore/{quizId}', ['uses' => 'QuizController@postScoreForAQuiz']);
 Route::get('quiz/{quizId}', ['uses' => 'QuizController@getSingleQuiz']);
 Route::put('quiz/{quizId}', ['uses' => 'QuizController@putQuiz']);
 Route::delete('quiz/{quizId}', ['uses' => 'QuizController@deleteQuiz']);
@@ -79,7 +85,6 @@ Route::delete('quiz/{quizId}', ['uses' => 'QuizController@deleteQuiz']);
 //  Routes for Test
 Route::get('tests', ['uses' => 'TestController@getAllTests']);
 Route::post('test/{courseId}', ['uses' => 'TestController@postTest']);
-Route::post('testScore/{testId}', ['uses' => 'TestController@postScoreForATest']);
 Route::get('test/{testId}', ['uses' => 'TestController@getSingleTest']);
 Route::put('test/{testId}', ['uses' => 'TestController@putTest']);
 Route::delete('test/{testId}', ['uses' => 'TestController@deleteTest']);
@@ -125,4 +130,17 @@ Route::post('scores/import',['uses'=>'ScoreController@import']);
 
 
 //  ROUTES FOR COMMENTS
-Route::post('comment/{userId}',['uses'=>'CommentController@postComment']);
+Route::post('comment',['uses'=>'CommentController@postComment']);
+Route::get('comments',['uses'=>'CommentController@getAllComments']);
+
+
+//  ROUTES FOR SCORES
+Route::post('scores/import',['uses'=>'ScoreController@import']);
+Route::post('testScore/{testId}', ['uses' => 'ScoreController@postScoreForATest']);
+Route::post('quizScore/{quizId}', ['uses' => 'ScoreController@postScoreForAQuiz']);
+Route::post('assignmentScore/{assignmentId}', ['uses' => 'ScoreController@postScoreForAnAssignment']);
+Route::post('practicalScore/{practicalId}', ['uses' => 'ScoreController@postScoreForAPractical']);
+
+
+ });
+

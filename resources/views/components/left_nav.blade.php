@@ -53,13 +53,19 @@
                     Postponements</h5>
             </a>
         </li>
+        <li class="nav-item  list-unstyled">
+            <a class="nav-link left-menu-link" href="{{ route('comments') }}">
+                <h5> <i class="fas fa-comment"> </i>
+                    Comments</h5>
+            </a>
+        </li>
         <hr>
         <h4 class="nav-item-heading">User Preferences </h4>
         <li class="nav-item  list-unstyled">
             <a class="nav-link left-menu-link">
                 <h5> <i class="fas fa-key" aria-hidden="true"></i>
 
-                    Change Password</h5>
+                   Logout</h5>
             </a>
         </li>
     </div>

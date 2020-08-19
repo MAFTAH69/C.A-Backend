@@ -27,22 +27,19 @@
                         <thead class="thead-dark">
                             <th>#</th>
                             <th>Reg. Number</th>
-                            <th>Student Name</th>
+                            {{-- <th>Student Name</th> --}}
                             <th>Marks</th>
                         </thead>
                     </tr>
                     <tbody>
                         @foreach ($test->scores as $index => $score)
-                        @foreach ($users as $user)
-                                @if ($user->id == $score->user_id)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $user->reg_number }}</td>
-                                        <td>{{ $user->surname }} {{ $user->first_name }} {{ $user->middle_name }}</td>
+                                        <td>{{ $score->reg_number }}</td>
+                                        {{-- <td>{{ $user->surname }} {{ $user->first_name }} {{ $user->middle_name }}</td> --}}
                                         <td><b>{{ $score->test_score }}</b></td>
                                     </tr>
-                                @endif
-                            @endforeach
+
                         @endforeach
                     </tbody>
                 </table>

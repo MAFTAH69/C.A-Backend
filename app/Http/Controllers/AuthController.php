@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         // $token=auth()->attempt($credentials);
 
-        if (! $token = auth()->guard('api')->attempt($credentials)) {
+        if (!$token = auth()->guard('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -77,11 +77,25 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $user = auth()->guard('api')->user();
+        $user->load(
+            'roles',
+            'courses',
+            'courses.tests',
+            'courses.quizzes',
+            'courses.practicals',
+            'courses.assignments',
+            'courses.tests.scores',
+            'courses.quizzes.scores',
+            'courses.practicals.scores',
+            'courses.assignments.scores'
+        );
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => auth()->guard('api')->user()
+            'user' => $user
         ]);
     }
 }

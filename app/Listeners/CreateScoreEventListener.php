@@ -29,7 +29,7 @@ class CreateScoreEventListener
     {
         $score =new Score();
         $score->scored_marks=$event->request->scored_marks;
-        $score->user_id=$event->request->user_id;
+        $score->reg_number=$event->request->reg_number;
         $event->scoreType->scores()->save($score);
         return response()->json(['score' => $score]);
 

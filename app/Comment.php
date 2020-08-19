@@ -11,15 +11,9 @@ class Comment extends Model
     protected $fillable = [
         'user_id',
         'body',
-        'comentable_type',
-        'commentable_id'
+        'postponement_id'
     ];
     protected $dates = [
         'deleted_at'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

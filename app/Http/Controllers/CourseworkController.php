@@ -59,7 +59,7 @@ class CourseworkController extends Controller
                     return $score->user_id != $student->id;
                 })->values();
             }
-            $course->cw = 100;
+            $course->cw =100;
 
             $student->course = $course;
         }

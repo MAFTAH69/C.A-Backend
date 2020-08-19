@@ -89,4 +89,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('instructors', 'UserController@allInstructors')->name('instructors');
     Route::get('instructor/{instructorId}', 'UserController@getSingleInstructor')->name('instructor');
     Route::get('delete_instructor/{instructorId}', 'UserController@deleteUser')->name('delete_instructor');
+
+
+    // ROUTES FOR COMMENTS
+    Route::get('comments', 'CommentController@getAllComments')->name('comments');
+    Route::get('delete_comment/{commentId}', 'CommentController@deleteComment')->name('delete_comment');
+
 });

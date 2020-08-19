@@ -6,15 +6,21 @@ use App\Comment;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Request as REQ;
 
 class CommentController extends Controller
 {
     public function getAllComments()
     {
+        $users = User::all();
+
         $comments = Comment::all();
-        return response()->json([
-            'comments' => $comments
-        ], 200);
+
+        if (REQ::is('api/*'))
+            return response()->json([
+                'comments' => $comments
+            ], 200);
+        return view('comments')->with(['comments' => $comments, 'users' => $users]);
     }
 
     public function getSingleComment($commentId)
@@ -30,16 +36,13 @@ class CommentController extends Controller
         ], 200);
     }
 
-    public function postComment(Request $request, $userId)
+    public function postComment(Request $request)
     {
-        $user=User::find($userId);
-        if(!$user) return response()->json(['error','User not found']);
 
         $validator = Validator::make($request->all(), [
-            // 'user_id' => 'required',
+            'user_id' => 'required',
             'body' => 'required',
-            'commentable_type' => 'required',
-            'commentable_id' => 'required',
+            'postponement_id' => 'required',
 
         ]);
 
@@ -52,12 +55,11 @@ class CommentController extends Controller
 
         $comment = new Comment();
 
-        // $comment->user_id = $request->input('user_id');
         $comment->body = $request->input('body');
-        $comment->commentable_type = $request->input('commentable_type');
-        $comment->commentable_id = $request->input('commentable_id');
+        $comment->user_id = $request->input('user_id');
+        $comment->postponement_id = $request->input('postponement_id');
 
-        $user->comments()->save($comment);
+        $comment->save();
         return response()->json([
             'comment' => $comment
         ], 200);
@@ -106,8 +108,10 @@ class CommentController extends Controller
         }
 
         $comment->delete();
+        if(REQ::is('api/*'))
         return response()->json([
             'message' => 'Comment deleted successfully'
         ], 200);
+        return back()->with('message','Comment deleted successfully');
     }
 }
